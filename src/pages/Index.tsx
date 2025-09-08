@@ -2,10 +2,22 @@ import { Link } from "react-router-dom";
 import { Shield, Eye, BookOpen, ArrowRight, Lock, Image, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import SignOutButton from "../components/SignOutButton";
+
+
+function Navbar() {
+  return (
+    <nav className="flex justify-between p-4 bg-gray-100">
+      <div>My App</div>
+      <SignOutButton />
+    </nav>
+  );
+}
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Navbar /> {/* <-- Add this line */}
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>

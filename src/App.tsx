@@ -14,16 +14,36 @@ import CaesarCipher from "./components/crypto/CaesarCipher";
 import VigenereCipher from "./components/crypto/VigenereCipher";
 import TextInImage from "./components/stego/TextInImage";
 import NotFound from "./pages/NotFound";
+import { useAuth } from "./contexts/AuthContext";
+
+// ✅ Import the new landing page
+import AuthLanding from "./pages/AuthLanding";
+
 
 const queryClient = new QueryClient();
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const { user } = useAuth();
 
   if (showSplash) {
     return <SplashScreen onFinish={() => setShowSplash(false)} />;
   }
 
+  // If user is not logged in, show new Auth Landing page
+  if (!user) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <AuthLanding />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // If user is logged in, show your original app
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -38,7 +58,7 @@ function App() {
             <Route path="/cryptography/vigenere" element={<AppLayout><VigenereCipher /></AppLayout>} />
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
