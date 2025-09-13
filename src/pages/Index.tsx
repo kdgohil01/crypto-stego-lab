@@ -7,18 +7,12 @@ import SignOutButton from "../components/SignOutButton";
 
 function Navbar() {
   return (
-<<<<<<< HEAD
     <nav className="flex justify-between p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
       <div className="relative">My App</div>
       <div className="relative">
         <SignOutButton />
       </div>
-=======
-    <nav className="flex justify-between p-4 bg-gray-100">
-      <div>My App</div>
-      <SignOutButton />
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
     </nav>
   );
 }
@@ -48,11 +42,7 @@ const Index = () => {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-<<<<<<< HEAD
               <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
-=======
-              <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 border-border/50 hover:bg-muted/50">
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
                 <Link to="/steganography" className="gap-2">
                   <Eye className="h-5 w-5" />
                   Try Steganography
@@ -90,11 +80,7 @@ const Index = () => {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm">
                     <Lock className="h-4 w-4 text-primary" />
-<<<<<<< HEAD
                     <span>AES-256 & RSA-2048 Encryption</span>
-=======
-                    <span>Caesar & Vigenère Ciphers</span>
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
                   </div>
                   <div className="flex items-center gap-3 text-sm">
                     <Lock className="h-4 w-4 text-primary" />
@@ -169,11 +155,7 @@ const Index = () => {
                     <span>Theory & Concepts</span>
                   </div>
                 </div>
-<<<<<<< HEAD
                 <Button asChild className="w-full btn-hero mt-6">
-=======
-                <Button asChild variant="outline" className="w-full mt-6 border-accent/30 hover:bg-accent/10">
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
                   <Link to="/learn">Start Learning</Link>
                 </Button>
               </CardContent>
