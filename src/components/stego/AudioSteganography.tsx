@@ -206,6 +206,7 @@ export default function AudioSteganography() {
   const [encodedAudio, setEncodedAudio] = useState<ArrayBuffer | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('encode');
   const audioRef = useRef<HTMLAudioElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -375,6 +376,14 @@ export default function AudioSteganography() {
     }
   };
 
+  const handleTabChange = (value: string) => {
+    if (activeTab === 'encode' && value === 'decode') {
+      // Reset everything when switching from encode to decode
+      reset();
+    }
+    setActiveTab(value);
+  };
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 text-center">
@@ -463,7 +472,7 @@ export default function AudioSteganography() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="encode" className="w-full">
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="encode" className="flex items-center gap-2">
                   <Lock className="h-4 w-4" />

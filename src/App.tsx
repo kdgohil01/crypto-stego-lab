@@ -14,6 +14,7 @@ import CaesarCipher from "./components/crypto/CaesarCipher";
 import VigenereCipher from "./components/crypto/VigenereCipher";
 import TextInImage from "./components/stego/TextInImage";
 import AudioSteganography from "./components/stego/AudioSteganography";
+import ClickSequenceAuth from "./components/stego/ClickSequenceAuth";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
@@ -60,6 +61,7 @@ function App() {
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
             <Route path="/steganography/audio" element={<AppLayout><AudioSteganography /></AppLayout>} />
+            <Route path="/steganography/click-sequence" element={<AppLayout><ClickSequenceAuth /></AppLayout>} />
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
