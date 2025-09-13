@@ -1,0 +1,166 @@
+import { Link } from "react-router-dom";
+import { Eye, Image, FileImage, Layers } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+const tools = [
+  {
+    title: "Text in Image",
+    description: "Hide secret messages inside images using LSB (Least Significant Bit) manipulation technique.",
+    icon: Image,
+    path: "/steganography/text-image",
+    difficulty: "Intermediate",
+    color: "text-secondary",
+    bgColor: "bg-secondary/10",
+  },
+];
+
+export default function Steganography() {
+  return (
+    <div className="container mx-auto py-8 px-4 max-w-6xl">
+      {/* Hero Section */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-secondary mb-6 float-animation">
+          <Eye className="h-10 w-10 text-white" />
+        </div>
+        <h1 className="text-5xl font-bold text-gradient mb-6">Steganography Lab</h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          Master the art of hiding information in plain sight. Conceal secret messages within innocent-looking files without anyone knowing they exist.
+        </p>
+      </div>
+
+      {/* Tools Grid */}
+      <div className="grid gap-6 md:grid-cols-1 mb-12 max-w-2xl mx-auto">
+        {tools.map((tool) => (
+          <Card key={tool.title} className="card-glow group hover:scale-105 transition-transform duration-300">
+            <CardHeader>
+              <div className="flex items-center justify-between mb-4">
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${tool.bgColor}`}>
+                  <tool.icon className={`h-6 w-6 ${tool.color}`} />
+                </div>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${tool.color} ${tool.bgColor}`}>
+                  {tool.difficulty}
+                </span>
+              </div>
+              <CardTitle className="text-2xl">{tool.title}</CardTitle>
+              <CardDescription className="text-base">{tool.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild className="w-full bg-secondary hover:bg-secondary/90">
+                <Link to={tool.path}>Try {tool.title}</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Coming Soon */}
+      <Card className="bg-muted/20 border-border/30 mb-12">
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl text-muted-foreground">Coming Soon</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="text-center p-4 rounded-lg bg-muted/10">
+              <FileImage className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">Audio Steganography</h3>
+              <p className="text-xs text-muted-foreground">Hide messages in audio files</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-muted/10">
+              <Layers className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">Video Steganography</h3>
+              <p className="text-xs text-muted-foreground">Embed data in video streams</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Info Section */}
+      <div className="grid gap-8 md:grid-cols-3 mb-12">
+        <Card className="bg-gradient-to-br from-secondary/5 to-secondary/10 border-secondary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5 text-secondary" />
+              Invisibility
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Unlike cryptography, steganography hides the very existence of the message, making it undetectable to casual observers.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-accent/5 to-accent/10 border-accent/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Image className="h-5 w-5 text-accent" />
+              Carrier Files
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Secret data is embedded within innocent-looking carrier files like images, audio, or video without altering their appearance.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Layers className="h-5 w-5 text-primary" />
+              LSB Technique
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Least Significant Bit manipulation modifies the last bit of pixel data, creating changes too small for human perception.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* How It Works */}
+      <Card className="card-glow">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">How Steganography Works</CardTitle>
+          <CardDescription className="text-base">
+            The science of hiding information within other data
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-6 md:grid-cols-4">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
+                1
+              </div>
+              <h3 className="font-semibold mb-2">Select Carrier</h3>
+              <p className="text-sm text-muted-foreground">Choose an innocent-looking file to hide data in</p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
+                2
+              </div>
+              <h3 className="font-semibold mb-2">Prepare Message</h3>
+              <p className="text-sm text-muted-foreground">Convert secret text into binary format</p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
+                3
+              </div>
+              <h3 className="font-semibold mb-2">Embed Data</h3>
+              <p className="text-sm text-muted-foreground">Replace least significant bits with message data</p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
+                4
+              </div>
+              <h3 className="font-semibold mb-2">Extract Later</h3>
+              <p className="text-sm text-muted-foreground">Retrieve hidden message using the same algorithm</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
