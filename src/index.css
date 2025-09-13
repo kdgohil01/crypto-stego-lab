@@ -149,6 +149,12 @@ All colors MUST be HSL for consistency and theming.
   /* Animated gradient text */
   .text-gradient {
     @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    /* Ensure proper rendering and prevent clipping */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding-bottom: 2px;
+    line-height: 1.1;
   }
 
   /* Pulse animation for loading states */

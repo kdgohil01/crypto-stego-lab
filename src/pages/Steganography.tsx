@@ -23,7 +23,7 @@ export default function Steganography() {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-secondary mb-6 float-animation">
           <Eye className="h-10 w-10 text-white" />
         </div>
-        <h1 className="text-5xl font-bold text-gradient mb-6">Steganography Lab</h1>
+        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Steganography Lab</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           Master the art of hiding information in plain sight. Conceal secret messages within innocent-looking files without anyone knowing they exist.
         </p>

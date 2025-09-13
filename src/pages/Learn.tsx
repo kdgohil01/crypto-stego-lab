@@ -8,7 +8,7 @@ export default function Learn() {
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       {/* Hero Section */}
       <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-gradient mb-6">Learn Cryptography & Steganography</h1>
+        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Learn Cryptography & Steganography</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           Discover the fascinating world of secret communication. From ancient ciphers to modern digital techniques.
         </p>

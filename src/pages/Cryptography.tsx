@@ -32,7 +32,7 @@ export default function Cryptography() {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-primary mb-6 float-animation">
           <Shield className="h-10 w-10 text-white" />
         </div>
-        <h1 className="text-5xl font-bold text-gradient mb-6">Cryptography Playground</h1>
+        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Cryptography Playground</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           Explore the world of encryption and decryption. Transform readable text into secret codes using classic and modern cryptographic techniques.
         </p>
