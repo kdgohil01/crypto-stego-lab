@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Eye, Image, FileImage, Layers } from "lucide-react";
+import { Eye, Image, FileImage, Layers, Volume2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -10,8 +10,17 @@ const tools = [
     icon: Image,
     path: "/steganography/text-image",
     difficulty: "Intermediate",
-    color: "text-secondary",
-    bgColor: "bg-secondary/10",
+    color: "text-white",
+    bgColor: "bg-green-500",
+  },
+  {
+    title: "Audio Steganography",
+    description: "Hide messages in audio files using LSB manipulation. Changes are inaudible to human ears.",
+    icon: Volume2,
+    path: "/steganography/audio",
+    difficulty: "Advanced",
+    color: "text-white",
+    bgColor: "bg-red-500",
   },
 ];
 
@@ -30,7 +39,7 @@ export default function Steganography() {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid gap-6 md:grid-cols-1 mb-12 max-w-2xl mx-auto">
+      <div className="grid gap-6 md:grid-cols-2 mb-12">
         {tools.map((tool) => (
           <Card key={tool.title} className="card-glow group hover:scale-105 transition-transform duration-300">
             <CardHeader>
@@ -60,12 +69,7 @@ export default function Steganography() {
           <CardTitle className="text-xl text-muted-foreground">Coming Soon</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="text-center p-4 rounded-lg bg-muted/10">
-              <FileImage className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-              <h3 className="font-semibold mb-1 text-muted-foreground">Audio Steganography</h3>
-              <p className="text-xs text-muted-foreground">Hide messages in audio files</p>
-            </div>
+          <div className="grid gap-4 md:grid-cols-1 max-w-sm mx-auto">
             <div className="text-center p-4 rounded-lg bg-muted/10">
               <Layers className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
               <h3 className="font-semibold mb-1 text-muted-foreground">Video Steganography</h3>

@@ -10,8 +10,8 @@ const tools = [
     icon: Lock,
     path: "/cryptography/caesar",
     difficulty: "Beginner",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
+    color: "text-white",
+    bgColor: "bg-blue-500",
   },
   {
     title: "Vigenère Cipher",
@@ -19,8 +19,8 @@ const tools = [
     icon: Unlock,
     path: "/cryptography/vigenere",
     difficulty: "Intermediate",
-    color: "text-secondary",
-    bgColor: "bg-secondary/10",
+    color: "text-white",
+    bgColor: "bg-green-500",
   },
 ];
 
