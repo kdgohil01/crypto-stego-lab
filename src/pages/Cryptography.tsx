@@ -5,36 +5,20 @@ import { Button } from "@/components/ui/button";
 
 const tools = [
   {
-<<<<<<< HEAD
-    title: "AES-256 Encryption",
-    description: "Advanced Encryption Standard with 256-bit keys. Industry-standard symmetric encryption used worldwide for secure data protection.",
-    icon: Lock,
-    path: "/cryptography/aes",
-    difficulty: "Professional",
-=======
     title: "Caesar Cipher",
     description: "The classic substitution cipher used by Julius Caesar. Each letter is shifted by a fixed number of positions.",
     icon: Lock,
     path: "/cryptography/caesar",
     difficulty: "Beginner",
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
     color: "text-primary",
     bgColor: "bg-primary/10",
   },
   {
-<<<<<<< HEAD
-    title: "RSA-2048 Encryption",
-    description: "RSA public-key cryptography with 2048-bit keys. Asymmetric encryption standard for secure communication and key exchange.",
-    icon: Unlock,
-    path: "/cryptography/rsa",
-    difficulty: "Professional",
-=======
     title: "Vigenère Cipher",
     description: "A polyalphabetic cipher using a keyword. Much more secure than simple substitution ciphers.",
     icon: Unlock,
     path: "/cryptography/vigenere",
     difficulty: "Intermediate",
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
     color: "text-secondary",
     bgColor: "bg-secondary/10",
   },
@@ -50,11 +34,7 @@ export default function Cryptography() {
         </div>
         <h1 className="text-5xl font-bold text-gradient mb-6">Cryptography Playground</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-<<<<<<< HEAD
-          Explore industry-standard encryption and decryption. Transform readable text into secure codes using professional-grade cryptographic algorithms.
-=======
           Explore the world of encryption and decryption. Transform readable text into secret codes using classic and modern cryptographic techniques.
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
         </p>
       </div>
 
@@ -142,13 +122,8 @@ export default function Cryptography() {
               <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mb-2">
                 1
               </div>
-<<<<<<< HEAD
-              <h3 className="font-semibold mb-2">Choose an Algorithm</h3>
-              <p className="text-sm text-muted-foreground">Start with AES-256 for symmetric encryption</p>
-=======
               <h3 className="font-semibold mb-2">Choose a Cipher</h3>
               <p className="text-sm text-muted-foreground">Start with Caesar cipher for simplicity</p>
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mb-2">
@@ -162,11 +137,7 @@ export default function Cryptography() {
                 3
               </div>
               <h3 className="font-semibold mb-2">Set Parameters</h3>
-<<<<<<< HEAD
-              <p className="text-sm text-muted-foreground">Configure password or generate key pairs</p>
-=======
               <p className="text-sm text-muted-foreground">Configure shift value or keyword</p>
->>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
             </div>
           </div>
         </CardContent>
