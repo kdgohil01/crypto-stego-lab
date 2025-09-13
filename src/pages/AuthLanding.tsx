@@ -18,11 +18,14 @@ const AuthLanding = () => {
       {/* Background matrix effect */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/matrix.png')] opacity-20" />
 
+<<<<<<< HEAD
       {/* Team Name */}
       <div className="relative z-10 text-center mb-8">
         <h1 className="text-4xl font-bold text-green-400">NeoByte</h1>
       </div>
 
+=======
+>>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
       {/* Title */}
       <div className="relative z-10 text-center max-w-2xl px-6">
         <span className="px-4 py-1 text-xs rounded-full border border-green-500 text-green-400 mb-4 inline-block">

@@ -10,8 +10,13 @@ import Index from "./pages/Index";
 import Learn from "./pages/Learn";
 import Cryptography from "./pages/Cryptography";
 import Steganography from "./pages/Steganography";
+<<<<<<< HEAD
 import AESCipher from "./components/crypto/CaesarCipher";
 import RSACipher from "./components/crypto/VigenereCipher";
+=======
+import CaesarCipher from "./components/crypto/CaesarCipher";
+import VigenereCipher from "./components/crypto/VigenereCipher";
+>>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
 import TextInImage from "./components/stego/TextInImage";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
@@ -54,8 +59,13 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/learn" element={<AppLayout><Learn /></AppLayout>} />
             <Route path="/cryptography" element={<AppLayout><Cryptography /></AppLayout>} />
+<<<<<<< HEAD
             <Route path="/cryptography/aes" element={<AppLayout><AESCipher /></AppLayout>} />
             <Route path="/cryptography/rsa" element={<AppLayout><RSACipher /></AppLayout>} />
+=======
+            <Route path="/cryptography/caesar" element={<AppLayout><CaesarCipher /></AppLayout>} />
+            <Route path="/cryptography/vigenere" element={<AppLayout><VigenereCipher /></AppLayout>} />
+>>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
             {/* Catch-all */}

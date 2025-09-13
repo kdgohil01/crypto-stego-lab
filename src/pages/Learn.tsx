@@ -186,6 +186,7 @@ export default function Learn() {
         </Card>
       </div>
 
+<<<<<<< HEAD
       {/* Methods for Cryptography and Steganography */}
       <Card className="card-glow mb-12">
         <CardHeader>
@@ -292,6 +293,8 @@ export default function Learn() {
         </CardContent>
       </Card>
 
+=======
+>>>>>>> d64b4070899631fbf5bb91604a71646099c3fbb1
       {/* Modern Applications */}
       <Card className="card-glow">
         <CardHeader>
