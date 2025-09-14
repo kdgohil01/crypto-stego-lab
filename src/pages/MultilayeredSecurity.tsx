@@ -108,11 +108,12 @@ export default function MultilayeredSecurity() {
                 </div>
 
                 <div className="pt-4">
-                  <Button asChild size="lg" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <Link to={tool.path}>
-                      Access Guardian Layer
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
+                  <Button 
+                    onClick={() => window.location.href = '/multilayered-security/guardian-layer'}
+                    className="w-full"
+                  >
+                    <Shield className="mr-2 h-4 w-4" />
+                    Access Guardian Layer
                   </Button>
                 </div>
               </CardContent>

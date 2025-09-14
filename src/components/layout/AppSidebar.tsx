@@ -1,4 +1,4 @@
-import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link, FileText, Hash, QrCode, Binary, Home, ShieldCheck, Key } from "lucide-react";
+import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link, FileText, Hash, QrCode, Binary, Home, ShieldCheck, Key, Video } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -32,6 +32,7 @@ const stegoItems = [
   { title: "Text in Image", url: "/steganography/text-image", icon: Image },
   { title: "Click Sequential Authentication", url: "/steganography/click-sequence", icon: MousePointer },
   { title: "Audio Steganography", url: "/steganography/audio", icon: Volume2 },
+  { title: "Video Steganography", url: "/steganography/video", icon: Video },
 ];
 
 const dataProcessingItems = [
@@ -42,9 +43,21 @@ const dataProcessingItems = [
   { title: "Binary Converter", url: "/data-processing/binary-converter", icon: Binary },
 ];
 
-const multilayeredSecurityItems = [
-  { title: "Guardian Layer", url: "/multilayered-security/guardian-layer", icon: ShieldCheck },
-];
+const multilayeredSecurityItems = {
+  title: "Multilayered Security",
+  icon: ShieldCheck,
+  url: "#",
+  items: [
+    {
+      title: "Overview",
+      url: "/multilayered-security",
+    },
+    {
+      title: "Guardian Layer",
+      url: "/multilayered-security/guardian-layer",
+    },
+  ],
+};
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -150,14 +163,14 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {multilayeredSecurityItems.map((item) => (
+                {multilayeredSecurityItems.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink 
                         to={item.url} 
                         className={({ isActive }) => getNavCls({ isActive })}
                       >
-                        <item.icon className="h-4 w-4" />
+                        <multilayeredSecurityItems.icon className="h-4 w-4" />
                         <span>{item.title}</span>
                       </NavLink>
                     </SidebarMenuButton>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Eye, Image, FileImage, Layers, Volume2, MousePointer } from "lucide-react";
+import { Eye, Image, FileImage, Layers, Volume2, MousePointer, Video } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -27,6 +27,15 @@ const tools = [
     description: "Hide messages in audio files using LSB manipulation. Changes are inaudible to human ears.",
     icon: Volume2,
     path: "/steganography/audio",
+    difficulty: "Intermediate",
+    color: "text-white",
+    bgColor: "bg-green-500",
+  },
+  {
+    title: "Video Steganography",
+    description: "Hide secret messages inside video files using military-grade AES-256 encryption and advanced techniques.",
+    icon: Video,
+    path: "/steganography/video",
     difficulty: "Advanced",
     color: "text-white",
     bgColor: "bg-red-500",
