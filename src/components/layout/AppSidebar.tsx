@@ -1,4 +1,4 @@
-import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link } from "lucide-react";
+import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link, FileText, Hash, QrCode, Binary, Home, ShieldCheck } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 
 const mainItems = [
+  { title: "Dashboard", url: "/", icon: Home },
   { title: "Cryptography", url: "/cryptography", icon: Shield },
   { title: "Steganography", url: "/steganography", icon: Eye },
+  { title: "Multilayered Security", url: "/multilayered-security", icon: ShieldCheck },
   { title: "Data Processing Tools", url: "/data-processing", icon: Database },
   { title: "Learn", url: "/learn", icon: BookOpen },
 ];
@@ -32,6 +34,14 @@ const stegoItems = [
 
 const dataProcessingItems = [
   { title: "URL Processor", url: "/data-processing/url-processor", icon: Link },
+  { title: "JSON Formatter", url: "/data-processing/json-formatter", icon: FileText },
+  { title: "Hash Generator", url: "/data-processing/hash-generator", icon: Hash },
+  { title: "QR Code Generator", url: "/data-processing/qr-generator", icon: QrCode },
+  { title: "Binary Converter", url: "/data-processing/binary-converter", icon: Binary },
+];
+
+const multilayeredSecurityItems = [
+  { title: "Guardian Layer", url: "/multilayered-security/guardian-layer", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
@@ -113,6 +123,32 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {stegoItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink 
+                        to={item.url} 
+                        className={({ isActive }) => getNavCls({ isActive })}
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {/* Multilayered Security Tools */}
+        {!isCollapsed && currentPath.startsWith('/multilayered-security') && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-muted-foreground">
+              Military-Grade Security
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {multilayeredSecurityItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink 

@@ -12,15 +12,13 @@ import Cryptography from "./pages/Cryptography";
 import Steganography from "./pages/Steganography";
 import DataProcessing from "./pages/DataProcessing";
 import CaesarCipher from "./components/crypto/CaesarCipher";
-import VigenereCipher from "./components/crypto/VigenereCipher";
-import TextInImage from "./components/stego/TextInImage";
-import AudioSteganography from "./components/stego/AudioSteganography";
-import ClickSequenceAuth from "./components/stego/ClickSequenceAuth";
 import URLProcessor from "./components/data/URLProcessor";
+import MultilayeredSecurity from "./pages/MultilayeredSecurity";
+import GuardianLayer from "./components/multilayered/GuardianLayer";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
-// ✅ Import the new landing page
+// Import the new landing page
 import AuthLanding from "./pages/AuthLanding";
 
 
@@ -59,11 +57,9 @@ function App() {
             <Route path="/learn" element={<AppLayout><Learn /></AppLayout>} />
             <Route path="/cryptography" element={<AppLayout><Cryptography /></AppLayout>} />
             <Route path="/cryptography/caesar" element={<AppLayout><CaesarCipher /></AppLayout>} />
-            <Route path="/cryptography/vigenere" element={<AppLayout><VigenereCipher /></AppLayout>} />
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
-            <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
-            <Route path="/steganography/audio" element={<AppLayout><AudioSteganography /></AppLayout>} />
-            <Route path="/steganography/click-sequence" element={<AppLayout><ClickSequenceAuth /></AppLayout>} />
+            <Route path="/multilayered-security" element={<AppLayout><MultilayeredSecurity /></AppLayout>} />
+            <Route path="/multilayered-security/guardian-layer" element={<AppLayout><GuardianLayer /></AppLayout>} />
             <Route path="/data-processing" element={<AppLayout><DataProcessing /></AppLayout>} />
             <Route path="/data-processing/url-processor" element={<AppLayout><URLProcessor /></AppLayout>} />
             {/* Catch-all */}

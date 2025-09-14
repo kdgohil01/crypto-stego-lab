@@ -15,8 +15,8 @@ export default function Learn() {
       </div>
 
       {/* Main Concepts */}
-      <div className="grid gap-8 md:grid-cols-3 mb-12">
-        <Card className="card-glow">
+      <div className="grid gap-8 md:grid-cols-4 mb-12">
+        <Card className="card-glow h-full flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-2xl">
               <Shield className="h-8 w-8 text-primary" />
@@ -26,8 +26,8 @@ export default function Learn() {
               The art and science of protecting information by transforming it into an unreadable format
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="space-y-3 flex-1">
               <div className="flex items-start gap-3">
                 <Lock className="h-5 w-5 text-primary mt-1" />
                 <div>
@@ -50,13 +50,13 @@ export default function Learn() {
                 </div>
               </div>
             </div>
-            <Button asChild className="w-full btn-hero">
+            <Button asChild className="w-full btn-hero mt-auto">
               <Link to="/cryptography">Try Cryptography Tools</Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="card-glow">
+        <Card className="card-glow h-full flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-2xl">
               <Eye className="h-8 w-8 text-secondary" />
@@ -66,8 +66,8 @@ export default function Learn() {
               The practice of concealing information within other non-secret text or data
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="space-y-3 flex-1">
               <div className="flex items-start gap-3">
                 <Image className="h-5 w-5 text-secondary mt-1" />
                 <div>
@@ -90,13 +90,53 @@ export default function Learn() {
                 </div>
               </div>
             </div>
-            <Button asChild className="w-full bg-secondary hover:bg-secondary/90">
+            <Button asChild className="w-full bg-secondary hover:bg-secondary/90 mt-auto">
               <Link to="/steganography">Try Steganography Tools</Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="card-glow">
+        <Card className="card-glow h-full flex flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-2xl">
+              <Shield className="h-8 w-8 text-red-500" />
+              Multilayered Security
+            </CardTitle>
+            <CardDescription className="text-base">
+              Military-grade protection combining AES-256, RSA-2048, and steganography in one system
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="space-y-3 flex-1">
+              <div className="flex items-start gap-3">
+                <Lock className="h-5 w-5 text-red-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">Triple-Layer Encryption</h4>
+                  <p className="text-sm text-muted-foreground">AES-256 → RSA-2048 → Steganography pipeline</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Key className="h-5 w-5 text-red-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">4-Click Authentication</h4>
+                  <p className="text-sm text-muted-foreground">Unique pixel-based security sequence</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Image className="h-5 w-5 text-red-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">Hidden in Images</h4>
+                  <p className="text-sm text-muted-foreground">Encrypted data concealed within image pixels</p>
+                </div>
+              </div>
+            </div>
+            <Button asChild className="w-full bg-red-500 hover:bg-red-600 mt-auto">
+              <Link to="/multilayered-security">Try Guardian Layer</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="card-glow h-full flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-2xl">
               <Database className="h-8 w-8 text-purple-500" />
@@ -106,8 +146,8 @@ export default function Learn() {
               The systematic transformation and encoding of data through multiple security layers
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="space-y-3 flex-1">
               <div className="flex items-start gap-3">
                 <Globe className="h-5 w-5 text-purple-500 mt-1" />
                 <div>
@@ -130,7 +170,7 @@ export default function Learn() {
                 </div>
               </div>
             </div>
-            <Button asChild className="w-full bg-purple-500 hover:bg-purple-600">
+            <Button asChild className="w-full bg-purple-500 hover:bg-purple-600 mt-auto">
               <Link to="/data-processing">Try Data Processing Tools</Link>
             </Button>
           </CardContent>
@@ -153,6 +193,7 @@ export default function Learn() {
                   <th className="pb-3 font-semibold">Aspect</th>
                   <th className="pb-3 font-semibold text-primary">Cryptography</th>
                   <th className="pb-3 font-semibold text-secondary">Steganography</th>
+                  <th className="pb-3 font-semibold text-red-500">Multilayered Security</th>
                   <th className="pb-3 font-semibold text-purple-500">Data Processing</th>
                 </tr>
               </thead>
@@ -161,30 +202,35 @@ export default function Learn() {
                   <td className="py-3 font-medium">Purpose</td>
                   <td className="py-3 text-muted-foreground">Make data unreadable</td>
                   <td className="py-3 text-muted-foreground">Hide data existence</td>
+                  <td className="py-3 text-muted-foreground">Triple-layer protection</td>
                   <td className="py-3 text-muted-foreground">Transform data format</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Visibility</td>
                   <td className="py-3 text-muted-foreground">Obviously encrypted</td>
                   <td className="py-3 text-muted-foreground">Appears normal</td>
+                  <td className="py-3 text-muted-foreground">Completely invisible</td>
                   <td className="py-3 text-muted-foreground">Encoded but visible</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Detection</td>
                   <td className="py-3 text-muted-foreground">Easy to detect</td>
                   <td className="py-3 text-muted-foreground">Hard to detect</td>
+                  <td className="py-3 text-muted-foreground">Nearly impossible</td>
                   <td className="py-3 text-muted-foreground">Easily detectable</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Strength</td>
                   <td className="py-3 text-muted-foreground">Mathematical security</td>
                   <td className="py-3 text-muted-foreground">Security through obscurity</td>
+                  <td className="py-3 text-muted-foreground">Military-grade combined</td>
                   <td className="py-3 text-muted-foreground">Format compatibility</td>
                 </tr>
                 <tr>
                   <td className="py-3 font-medium">Best Use</td>
                   <td className="py-3 text-muted-foreground">Secure communication</td>
                   <td className="py-3 text-muted-foreground">Covert communication</td>
+                  <td className="py-3 text-muted-foreground">Maximum security needs</td>
                   <td className="py-3 text-muted-foreground">Data transmission & storage</td>
                 </tr>
               </tbody>

@@ -73,7 +73,7 @@ const Index = () => {
 
           <div className="grid gap-8 md:grid-cols-4 max-w-7xl mx-auto">
             {/* Cryptography */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6 group-hover:shadow-glow-primary transition-all duration-300">
                   <Shield className="h-8 w-8 text-white" />
@@ -83,8 +83,8 @@ const Index = () => {
                   Transform readable text into unbreakable codes using mathematical algorithms
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
+                <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
                     <Lock className="h-4 w-4 text-primary" />
                     <span>AES-256 & RSA-2048 Encryption</span>
@@ -98,14 +98,14 @@ const Index = () => {
                     <span>Interactive Learning Tools</span>
                   </div>
                 </div>
-                <Button asChild className="w-full btn-hero mt-6">
+                <Button asChild className="w-full btn-hero mt-auto">
                   <Link to="/cryptography">Explore Cryptography</Link>
                 </Button>
               </CardContent>
             </Card>
 
             {/* Steganography */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-secondary mb-6 group-hover:shadow-glow-secondary transition-all duration-300">
                   <Eye className="h-8 w-8 text-white" />
@@ -115,8 +115,8 @@ const Index = () => {
                   Hide secret messages within innocent-looking files and images
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
+                <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
                     <Image className="h-4 w-4 text-secondary" />
                     <span>Text-in-Image Hiding</span>
@@ -130,14 +130,14 @@ const Index = () => {
                     <span>Invisible Message Extraction</span>
                   </div>
                 </div>
-                <Button asChild className="w-full btn-hero mt-6">
+                <Button asChild className="w-full btn-hero mt-auto">
                   <Link to="/steganography">Explore Steganography</Link>
                 </Button>
               </CardContent>
             </Card>
 
             {/* Data Processing */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 mb-6 group-hover:shadow-[0_0_20px_hsl(270_100%_50%/0.4)] transition-all duration-300">
                   <Database className="h-8 w-8 text-white" />
@@ -147,8 +147,8 @@ const Index = () => {
                   Transform and encode data with multi-level security processing tools
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
+                <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
                     <Database className="h-4 w-4 text-purple-500" />
                     <span>URL Encoding/Decoding</span>
@@ -162,14 +162,14 @@ const Index = () => {
                     <span>AES-256 Encryption</span>
                   </div>
                 </div>
-                <Button asChild className="w-full bg-purple-500 hover:bg-purple-600 mt-6">
+                <Button asChild className="w-full bg-purple-500 hover:bg-purple-600 mt-auto">
                   <Link to="/data-processing">Explore Data Processing</Link>
                 </Button>
               </CardContent>
             </Card>
 
             {/* Learn */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-accent to-primary mb-6 group-hover:shadow-[0_0_20px_hsl(180_100%_50%/0.4)] transition-all duration-300">
                   <BookOpen className="h-8 w-8 text-white" />
@@ -179,8 +179,8 @@ const Index = () => {
                   Understand the theory, history, and applications of secret communication
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
+                <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
                     <Brain className="h-4 w-4 text-accent" />
                     <span>Historical Examples</span>
@@ -194,7 +194,7 @@ const Index = () => {
                     <span>Theory & Concepts</span>
                   </div>
                 </div>
-                <Button asChild className="w-full btn-hero mt-6">
+                <Button asChild className="w-full btn-hero mt-auto">
                   <Link to="/learn">Start Learning</Link>
                 </Button>
               </CardContent>
