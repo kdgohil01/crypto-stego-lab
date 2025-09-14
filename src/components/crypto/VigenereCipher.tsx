@@ -54,6 +54,12 @@ export default function VigenereCipher() {
   const [plaintext, setPlaintext] = useState("");
   const [ciphertext, setCiphertext] = useState("");
   const [key, setKey] = useState("CRYPTO");
+
+  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only allow letters (a-z, A-Z), filter out numbers and special characters
+    const filteredValue = e.target.value.replace(/[^a-zA-Z]/g, '');
+    setKey(filteredValue);
+  };
   const { toast } = useToast();
 
   const handleEncrypt = () => {
@@ -137,11 +143,11 @@ export default function VigenereCipher() {
                   id="key"
                   placeholder="Enter keyword (e.g., CRYPTO)"
                   value={key}
-                  onChange={(e) => setKey(e.target.value)}
+                  onChange={handleKeyChange}
                   className="input-cyber font-mono"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  Only letters are used. Repeated to match text length.
+                  Only letters allowed. Numbers and special characters are automatically filtered out.
                 </p>
               </div>
             </div>

@@ -1,49 +1,31 @@
 import { Link } from "react-router-dom";
-import { Eye, Image, FileImage, Layers, Volume2, MousePointer } from "lucide-react";
+import { Database, Link as LinkIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const tools = [
   {
-    title: "Text in Image",
-    description: "Hide secret messages inside images using LSB (Least Significant Bit) manipulation technique.",
-    icon: Image,
-    path: "/steganography/text-image",
-    difficulty: "Beginner",
+    title: "URL Processor",
+    description: "Multi-level security encoding tool with URL encoding, Base64, and AES-256 encryption capabilities.",
+    icon: LinkIcon,
+    path: "/data-processing/url-processor",
+    difficulty: "Multi-Level",
     color: "text-white",
-    bgColor: "bg-blue-500",
-  },
-  {
-    title: "Click Sequence Authentication",
-    description: "Hide messages in images using click-based authentication. Secure your data with pixel coordinates.",
-    icon: MousePointer,
-    path: "/steganography/click-sequence",
-    difficulty: "Intermediate",
-    color: "text-white",
-    bgColor: "bg-green-500",
-  },
-  {
-    title: "Audio Steganography",
-    description: "Hide messages in audio files using LSB manipulation. Changes are inaudible to human ears.",
-    icon: Volume2,
-    path: "/steganography/audio",
-    difficulty: "Advanced",
-    color: "text-white",
-    bgColor: "bg-red-500",
+    bgColor: "bg-purple-500",
   },
 ];
 
-export default function Steganography() {
+export default function DataProcessing() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       {/* Hero Section */}
       <div className="text-center mb-12">
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-secondary mb-6 float-animation">
-          <Eye className="h-10 w-10 text-white" />
+          <Database className="h-10 w-10 text-white" />
         </div>
-        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Steganography Lab</h1>
+        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Data Processing Tools</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Master the art of hiding information in plain sight. Conceal secret messages within innocent-looking files without anyone knowing they exist.
+          Transform and process your data with powerful encoding, decoding, and conversion tools designed for various security levels and use cases.
         </p>
       </div>
 
@@ -78,11 +60,16 @@ export default function Steganography() {
           <CardTitle className="text-xl text-muted-foreground">Coming Soon</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-1 max-w-sm mx-auto">
+          <div className="grid gap-4 md:grid-cols-2 max-w-2xl mx-auto">
             <div className="text-center p-4 rounded-lg bg-muted/10">
-              <Layers className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-              <h3 className="font-semibold mb-1 text-muted-foreground">Video Steganography</h3>
-              <p className="text-xs text-muted-foreground">Embed data in video streams</p>
+              <Database className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">JSON Formatter</h3>
+              <p className="text-xs text-muted-foreground">Format and validate JSON data</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-muted/10">
+              <LinkIcon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">Hash Generator</h3>
+              <p className="text-xs text-muted-foreground">Generate MD5, SHA-256 hashes</p>
             </div>
           </div>
         </CardContent>
@@ -93,13 +80,13 @@ export default function Steganography() {
         <Card className="bg-gradient-to-br from-secondary/5 to-secondary/10 border-secondary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Eye className="h-5 w-5 text-secondary" />
-              Invisibility
+              <LinkIcon className="h-5 w-5 text-secondary" />
+              Multi-Level Security
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Unlike cryptography, steganography hides the very existence of the message, making it undetectable to casual observers.
+              Process data through multiple security levels from basic URL encoding to military-grade AES-256 encryption.
             </p>
           </CardContent>
         </Card>
@@ -107,13 +94,13 @@ export default function Steganography() {
         <Card className="bg-gradient-to-br from-accent/5 to-accent/10 border-accent/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Image className="h-5 w-5 text-accent" />
-              Carrier Files
+              <Database className="h-5 w-5 text-accent" />
+              Data Transformation
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Secret data is embedded within innocent-looking carrier files like images, audio, or video without altering their appearance.
+              Convert between different data formats and encodings for various applications and security requirements.
             </p>
           </CardContent>
         </Card>
@@ -121,13 +108,13 @@ export default function Steganography() {
         <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Layers className="h-5 w-5 text-primary" />
-              LSB Technique
+              <Database className="h-5 w-5 text-primary" />
+              Real-time Processing
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Least Significant Bit manipulation modifies the last bit of pixel data, creating changes too small for human perception.
+              Instant encoding, decoding, and encryption with automatic clipboard copying for seamless workflow.
             </p>
           </CardContent>
         </Card>
@@ -136,9 +123,9 @@ export default function Steganography() {
       {/* How It Works */}
       <Card className="card-glow">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">How Steganography Works</CardTitle>
+          <CardTitle className="text-2xl">How Data Processing Works</CardTitle>
           <CardDescription className="text-base">
-            The science of hiding information within other data
+            The science of transforming data for security and compatibility
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -147,29 +134,29 @@ export default function Steganography() {
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
                 1
               </div>
-              <h3 className="font-semibold mb-2">Select Carrier</h3>
-              <p className="text-sm text-muted-foreground">Choose an innocent-looking file to hide data in</p>
+              <h3 className="font-semibold mb-2">Input Data</h3>
+              <p className="text-sm text-muted-foreground">Enter your text or data that needs processing</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
                 2
               </div>
-              <h3 className="font-semibold mb-2">Prepare Message</h3>
-              <p className="text-sm text-muted-foreground">Convert secret text into binary format</p>
+              <h3 className="font-semibold mb-2">Choose Method</h3>
+              <p className="text-sm text-muted-foreground">Select appropriate encoding or encryption level</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
                 3
               </div>
-              <h3 className="font-semibold mb-2">Embed Data</h3>
-              <p className="text-sm text-muted-foreground">Replace least significant bits with message data</p>
+              <h3 className="font-semibold mb-2">Process Data</h3>
+              <p className="text-sm text-muted-foreground">Apply transformation using selected algorithm</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary text-secondary-foreground font-bold mb-4">
                 4
               </div>
-              <h3 className="font-semibold mb-2">Extract Later</h3>
-              <p className="text-sm text-muted-foreground">Retrieve hidden message using the same algorithm</p>
+              <h3 className="font-semibold mb-2">Get Result</h3>
+              <p className="text-sm text-muted-foreground">Receive processed data with automatic clipboard copy</p>
             </div>
           </div>
         </CardContent>

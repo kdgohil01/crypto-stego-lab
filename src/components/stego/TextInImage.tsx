@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 // Simple LSB Steganography implementation
 const hideTextInImage = (canvas: HTMLCanvasElement, text: string): string => {
@@ -200,7 +201,10 @@ export default function TextInImage() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gradient mb-4">Text in Image Steganography</h1>
+        <h1 className="text-4xl font-bold text-gradient mb-2">Text in Image Steganography</h1>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <Badge className="bg-blue-500 text-white border-transparent">Beginner</Badge>
+        </div>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Hide secret messages inside images using LSB (Least Significant Bit) manipulation. The changes are invisible to the naked eye.
         </p>

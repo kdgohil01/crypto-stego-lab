@@ -1,4 +1,4 @@
-import { Shield, Eye, BookOpen, Lock, Unlock, Image } from "lucide-react";
+import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -15,6 +15,7 @@ import {
 const mainItems = [
   { title: "Cryptography", url: "/cryptography", icon: Shield },
   { title: "Steganography", url: "/steganography", icon: Eye },
+  { title: "Data Processing Tools", url: "/data-processing", icon: Database },
   { title: "Learn", url: "/learn", icon: BookOpen },
 ];
 
@@ -25,6 +26,12 @@ const cryptoItems = [
 
 const stegoItems = [
   { title: "Text in Image", url: "/steganography/text-image", icon: Image },
+  { title: "Click Sequential Authentication", url: "/steganography/click-sequence", icon: MousePointer },
+  { title: "Audio Steganography", url: "/steganography/audio", icon: Volume2 },
+];
+
+const dataProcessingItems = [
+  { title: "URL Processor", url: "/data-processing/url-processor", icon: Link },
 ];
 
 export function AppSidebar() {
@@ -106,6 +113,32 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {stegoItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink 
+                        to={item.url} 
+                        className={({ isActive }) => getNavCls({ isActive })}
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {/* Data Processing Tools */}
+        {!isCollapsed && currentPath.startsWith('/data-processing') && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-muted-foreground">
+              Processing Tools
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {dataProcessingItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink 

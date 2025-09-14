@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Shield, Eye, BookOpen, ArrowRight, Lock, Image, Brain } from "lucide-react";
+import { Shield, Eye, BookOpen, ArrowRight, Lock, Image, Brain, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import SignOutButton from "../components/SignOutButton";
@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <nav className="flex justify-between p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
-      <div className="relative">My App</div>
+      <div className="relative">Crypto Stego Lab</div>
       <div className="relative">
         <SignOutButton />
       </div>
@@ -32,7 +32,7 @@ const Index = () => {
               Secret Communication
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-              Explore cryptography and steganography with interactive tools. Learn to encrypt messages, hide secrets in images, and understand the science behind secure communication.
+              Explore cryptography, steganography, and data processing with interactive tools. Learn to encrypt messages, hide secrets in images, and process data with multiple security levels.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
@@ -49,6 +49,13 @@ const Index = () => {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
+              <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
+                <Link to="/data-processing" className="gap-2">
+                  <Database className="h-5 w-5" />
+                  Try Data Processing
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -60,11 +67,11 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Choose Your Path</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Dive into the fascinating worlds of encryption and hidden messages
+              Dive into the fascinating worlds of encryption, hidden messages, and data processing
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+          <div className="grid gap-8 md:grid-cols-4 max-w-7xl mx-auto">
             {/* Cryptography */}
             <Card className="card-glow group hover:scale-105 transition-all duration-300">
               <CardHeader className="text-center pb-8">
@@ -123,8 +130,40 @@ const Index = () => {
                     <span>Invisible Message Extraction</span>
                   </div>
                 </div>
-                <Button asChild className="w-full bg-secondary hover:bg-secondary/90 mt-6">
+                <Button asChild className="w-full btn-hero mt-6">
                   <Link to="/steganography">Explore Steganography</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Data Processing */}
+            <Card className="card-glow group hover:scale-105 transition-all duration-300">
+              <CardHeader className="text-center pb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 mb-6 group-hover:shadow-[0_0_20px_hsl(270_100%_50%/0.4)] transition-all duration-300">
+                  <Database className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl mb-2">Data Processing</CardTitle>
+                <CardDescription className="text-base">
+                  Transform and encode data with multi-level security processing tools
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-sm">
+                    <Database className="h-4 w-4 text-purple-500" />
+                    <span>URL Encoding/Decoding</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <Database className="h-4 w-4 text-purple-500" />
+                    <span>Base64 Processing</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <Database className="h-4 w-4 text-purple-500" />
+                    <span>AES-256 Encryption</span>
+                  </div>
+                </div>
+                <Button asChild className="w-full bg-purple-500 hover:bg-purple-600 mt-6">
+                  <Link to="/data-processing">Explore Data Processing</Link>
                 </Button>
               </CardContent>
             </Card>

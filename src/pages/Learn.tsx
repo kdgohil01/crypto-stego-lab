@@ -1,4 +1,4 @@
-import { Shield, Eye, Lock, Key, Image, Zap, Brain, History } from "lucide-react";
+import { Shield, Eye, Database, Lock, Key, Image, Zap, Brain, History, Globe, Code, FileText } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -8,14 +8,14 @@ export default function Learn() {
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       {/* Hero Section */}
       <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Learn Cryptography & Steganography</h1>
+        <h1 className="text-5xl font-bold text-gradient mb-6 leading-tight pb-2">Learn Security & Data Processing</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Discover the fascinating world of secret communication. From ancient ciphers to modern digital techniques.
+          Discover the fascinating world of secret communication and data transformation. From ancient ciphers to modern digital processing techniques.
         </p>
       </div>
 
       {/* Main Concepts */}
-      <div className="grid gap-8 md:grid-cols-2 mb-12">
+      <div className="grid gap-8 md:grid-cols-3 mb-12">
         <Card className="card-glow">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-2xl">
@@ -95,6 +95,46 @@ export default function Learn() {
             </Button>
           </CardContent>
         </Card>
+
+        <Card className="card-glow">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-2xl">
+              <Database className="h-8 w-8 text-purple-500" />
+              Data Processing
+            </CardTitle>
+            <CardDescription className="text-base">
+              The systematic transformation and encoding of data through multiple security layers
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <Globe className="h-5 w-5 text-purple-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">URL Encoding</h4>
+                  <p className="text-sm text-muted-foreground">Converting special characters for safe web transmission</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Code className="h-5 w-5 text-purple-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">Base64 Encoding</h4>
+                  <p className="text-sm text-muted-foreground">Binary-to-text encoding for data transmission</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Lock className="h-5 w-5 text-purple-500 mt-1" />
+                <div>
+                  <h4 className="font-semibold">Multi-Layer Security</h4>
+                  <p className="text-sm text-muted-foreground">Combining encoding with AES-256 encryption</p>
+                </div>
+              </div>
+            </div>
+            <Button asChild className="w-full bg-purple-500 hover:bg-purple-600">
+              <Link to="/data-processing">Try Data Processing Tools</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Key Differences */}
@@ -102,7 +142,7 @@ export default function Learn() {
         <CardHeader>
           <CardTitle className="text-2xl text-center">Key Differences</CardTitle>
           <CardDescription className="text-center text-base">
-            Understanding when to use cryptography vs steganography
+            Understanding when to use cryptography, steganography, or data processing
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -113,6 +153,7 @@ export default function Learn() {
                   <th className="pb-3 font-semibold">Aspect</th>
                   <th className="pb-3 font-semibold text-primary">Cryptography</th>
                   <th className="pb-3 font-semibold text-secondary">Steganography</th>
+                  <th className="pb-3 font-semibold text-purple-500">Data Processing</th>
                 </tr>
               </thead>
               <tbody className="space-y-2">
@@ -120,26 +161,31 @@ export default function Learn() {
                   <td className="py-3 font-medium">Purpose</td>
                   <td className="py-3 text-muted-foreground">Make data unreadable</td>
                   <td className="py-3 text-muted-foreground">Hide data existence</td>
+                  <td className="py-3 text-muted-foreground">Transform data format</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Visibility</td>
                   <td className="py-3 text-muted-foreground">Obviously encrypted</td>
                   <td className="py-3 text-muted-foreground">Appears normal</td>
+                  <td className="py-3 text-muted-foreground">Encoded but visible</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Detection</td>
                   <td className="py-3 text-muted-foreground">Easy to detect</td>
                   <td className="py-3 text-muted-foreground">Hard to detect</td>
+                  <td className="py-3 text-muted-foreground">Easily detectable</td>
                 </tr>
                 <tr className="border-b border-border/30">
                   <td className="py-3 font-medium">Strength</td>
                   <td className="py-3 text-muted-foreground">Mathematical security</td>
                   <td className="py-3 text-muted-foreground">Security through obscurity</td>
+                  <td className="py-3 text-muted-foreground">Format compatibility</td>
                 </tr>
                 <tr>
                   <td className="py-3 font-medium">Best Use</td>
                   <td className="py-3 text-muted-foreground">Secure communication</td>
                   <td className="py-3 text-muted-foreground">Covert communication</td>
+                  <td className="py-3 text-muted-foreground">Data transmission & storage</td>
                 </tr>
               </tbody>
             </table>
@@ -148,7 +194,7 @@ export default function Learn() {
       </Card>
 
       {/* Historical Examples */}
-      <div className="grid gap-6 md:grid-cols-3 mb-12">
+      <div className="grid gap-6 md:grid-cols-4 mb-12">
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardHeader>
             <CardTitle className="text-lg">Caesar Cipher</CardTitle>
@@ -184,18 +230,30 @@ export default function Learn() {
             </p>
           </CardContent>
         </Card>
+
+        <Card className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20">
+          <CardHeader>
+            <CardTitle className="text-lg">Base64 Encoding</CardTitle>
+            <CardDescription>1987</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Developed for email systems to encode binary data as ASCII text, enabling safe transmission of files over text-based protocols.
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Methods for Cryptography and Steganography */}
       <Card className="card-glow mb-12">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Methods for Cryptography and Steganography</CardTitle>
+          <CardTitle className="text-2xl text-center">Methods & Techniques</CardTitle>
           <CardDescription className="text-center text-base">
-            Modern algorithms and techniques used in our tools
+            Modern algorithms and techniques used across all our security tools
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-3">
             {/* AES-256 */}
             <div className="space-y-4">
               <div className="flex items-center gap-3 mb-4">
@@ -263,12 +321,46 @@ export default function Learn() {
                 </div>
               </div>
             </div>
+
+            {/* Data Processing Techniques */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <Database className="h-8 w-8 text-purple-500" />
+                <h3 className="text-xl font-bold text-purple-500">Data Processing Methods</h3>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <h4 className="font-semibold mb-2">URL Encoding</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Converts special characters into percent-encoded format (%20 for space) to ensure safe transmission over HTTP. Essential for web applications and APIs.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Base64 Encoding</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Transforms binary data into ASCII text using 64 printable characters. Commonly used in email attachments, data URLs, and API responses.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Multi-Layer Processing</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Combines multiple encoding methods with encryption for enhanced security. URL → Base64 → AES-256 creates robust data protection.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Real-World Use</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Web forms, file uploads, API data exchange, email systems, and secure data storage with multiple transformation layers.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Comparison */}
           <div className="mt-8 p-6 bg-muted/20 rounded-lg">
-            <h4 className="font-semibold mb-3 text-center">Key Differences</h4>
-            <div className="grid gap-4 md:grid-cols-2 text-sm">
+            <h4 className="font-semibold mb-3 text-center">Technical Comparison</h4>
+            <div className="grid gap-4 md:grid-cols-3 text-sm">
               <div>
                 <span className="font-medium text-primary">AES-256 (Symmetric):</span>
                 <ul className="mt-1 space-y-1 text-muted-foreground">
@@ -287,6 +379,15 @@ export default function Learn() {
                   <li>• No key sharing needed</li>
                 </ul>
               </div>
+              <div>
+                <span className="font-medium text-purple-500">Data Processing:</span>
+                <ul className="mt-1 space-y-1 text-muted-foreground">
+                  <li>• Format transformation, not encryption</li>
+                  <li>• Very fast processing</li>
+                  <li>• Perfect for data compatibility</li>
+                  <li>• No keys required</li>
+                </ul>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -301,7 +402,7 @@ export default function Learn() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-3">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-primary">Cryptography Today</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
@@ -320,6 +421,16 @@ export default function Learn() {
                 <li>• <strong>Covert Channels:</strong> Bypass censorship and surveillance</li>
                 <li>• <strong>Data Exfiltration:</strong> Both legitimate and malicious uses</li>
                 <li>• <strong>Privacy:</strong> Hide sensitive information in plain sight</li>
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-purple-500">Data Processing Today</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• <strong>Web APIs:</strong> JSON data encoding for REST services</li>
+                <li>• <strong>File Uploads:</strong> Base64 encoding for binary data</li>
+                <li>• <strong>URL Parameters:</strong> Safe transmission of special characters</li>
+                <li>• <strong>Email Systems:</strong> MIME encoding for attachments</li>
+                <li>• <strong>Data Storage:</strong> Format conversion for databases</li>
               </ul>
             </div>
           </div>

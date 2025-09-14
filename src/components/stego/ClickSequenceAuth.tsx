@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
 
 interface ClickPoint {
   x: number;
@@ -104,18 +105,19 @@ function decodeMessage(canvas: HTMLCanvasElement): SteganographyData | null {
       const bit = pixels[pixelIndex] & 1;
       binaryData += bit;
 
-      // Check for delimiter
+  // Check for delimiter
       if (binaryData.length >= delimiter.length) {
         const lastBits = binaryData.slice(-delimiter.length);
         if (lastBits === delimiter) {
-          // Found delimiter, extract message
+          // Found delimiter, extract message candidate
           const messageBinary = binaryData.slice(0, -delimiter.length);
           const messageString = binaryToString(messageBinary);
           
           try {
-            return JSON.parse(messageString) as SteganographyData;
+            const parsed = JSON.parse(messageString) as SteganographyData;
+            return parsed;
           } catch {
-            return null;
+            // Not valid JSON at this delimiter. Continue scanning for the next occurrence.
           }
         }
       }
@@ -161,10 +163,21 @@ export default function ClickSequenceAuth() {
     const img = new Image();
     img.onload = () => {
       setImage(img);
-      setClickSequence([]);
-      setEncodedImage(null);
-      setExtractedMessage('');
-      setExtractedSequence([]);
+      
+      if (activeTab === 'encode') {
+        // Reset everything for encode mode
+        setClickSequence([]);
+        setEncodedImage(null);
+        setIsSettingSequence(false);
+      } else {
+        // Reset everything for decode mode
+        setExtractedMessage('');
+        setExtractedSequence([]);
+        setIsVerifyingSequence(false);
+        setUserClickSequence([]);
+        setIsAuthenticated(false);
+      }
+      
       drawImageOnCanvas(img);
       
       toast({
@@ -182,23 +195,18 @@ export default function ClickSequenceAuth() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size to match image aspect ratio
-    const maxWidth = 600;
-    const maxHeight = 400;
-    const aspectRatio = img.width / img.height;
+    // Draw at the image's original pixel dimensions to preserve LSB data
+    const w = (img as HTMLImageElement).naturalWidth || img.width;
+    const h = (img as HTMLImageElement).naturalHeight || img.height;
+
+    canvas.width = w;
+    canvas.height = h;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
     
-    let canvasWidth = maxWidth;
-    let canvasHeight = maxWidth / aspectRatio;
-    
-    if (canvasHeight > maxHeight) {
-      canvasHeight = maxHeight;
-      canvasWidth = maxHeight * aspectRatio;
-    }
-    
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    
-    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+    // Ensure canvas is interactive
+    canvas.style.pointerEvents = 'auto';
   };
 
   const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -206,8 +214,21 @@ export default function ClickSequenceAuth() {
 
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+
+    // Prefer native offsetX/Y when available (Edge reliability), fallback to clientX/Y
+    const native = event.nativeEvent as MouseEvent & { offsetX?: number; offsetY?: number };
+    let xDisplay = typeof native.offsetX === 'number' ? native.offsetX : event.clientX - rect.left;
+    let yDisplay = typeof native.offsetY === 'number' ? native.offsetY : event.clientY - rect.top;
+
+    // Clamp to element bounds
+    xDisplay = Math.max(0, Math.min(xDisplay, rect.width));
+    yDisplay = Math.max(0, Math.min(yDisplay, rect.height));
+
+    // Map from CSS pixels to canvas (internal) pixels
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = xDisplay * scaleX;
+    const y = yDisplay * scaleY;
 
     // Handle encode mode - setting sequence
     if (isSettingSequence && activeTab === 'encode') {
@@ -223,7 +244,7 @@ export default function ClickSequenceAuth() {
       const newPoint = normalizeClickPoint(x, y, canvas.width, canvas.height, clickSequence.length);
       setClickSequence(prev => [...prev, newPoint]);
       
-      // Draw click point on canvas
+      // Draw click point on canvas (use canvas pixel coordinates)
       const ctx = canvas.getContext('2d');
       if (ctx) {
         ctx.fillStyle = '#ff0000';
@@ -239,7 +260,7 @@ export default function ClickSequenceAuth() {
       
       toast({
         title: `Click point ${clickSequence.length + 1} set`,
-        description: `Coordinates: (${Math.round(x)}, ${Math.round(y)})`,
+        description: `Coordinates: (${Math.round(xDisplay)}, ${Math.round(yDisplay)})`,
       });
     }
 
@@ -248,8 +269,7 @@ export default function ClickSequenceAuth() {
       if (userClickSequence.length >= extractedSequence.length) {
         toast({
           title: "Sequence complete",
-          description: "You have clicked all required points.",
-          variant: "destructive",
+          description: "You have clicked all required points. Verifying...",
         });
         return;
       }
@@ -258,28 +278,123 @@ export default function ClickSequenceAuth() {
       const newUserSequence = [...userClickSequence, newPoint];
       setUserClickSequence(newUserSequence);
       
-      // Draw click point on canvas
+      // Draw RED click point on canvas for user confirmation
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.fillStyle = '#0000ff';
+        ctx.fillStyle = '#ff0000'; // RED dots for decode verification
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
         ctx.fill();
+        
+        // Add white border for visibility
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
         
         // Add number label
         ctx.fillStyle = '#ffffff';
-        ctx.font = '12px Arial';
-        ctx.fillText((userClickSequence.length + 1).toString(), x + 8, y - 8);
+        ctx.font = 'bold 14px Arial';
+        ctx.fillText((userClickSequence.length + 1).toString(), x + 10, y - 10);
       }
       
       toast({
         title: `Verification click ${userClickSequence.length + 1}`,
-        description: `Point recorded: (${Math.round(x)}, ${Math.round(y)})`,
+        description: `Point ${userClickSequence.length + 1} of ${extractedSequence.length} recorded`,
       });
 
       // Check if sequence is complete
       if (newUserSequence.length === extractedSequence.length) {
-        verifyClickSequence(newUserSequence);
+        setTimeout(() => verifyClickSequence(newUserSequence), 500); // Small delay to show final dot
+      }
+    }
+  };
+
+  const handleCanvasPointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
+    event.preventDefault();
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+
+    const native = event.nativeEvent as PointerEvent & { offsetX?: number; offsetY?: number };
+    let xDisplay = typeof native.offsetX === 'number' ? native.offsetX : event.clientX - rect.left;
+    let yDisplay = typeof native.offsetY === 'number' ? native.offsetY : event.clientY - rect.top;
+
+    xDisplay = Math.max(0, Math.min(xDisplay, rect.width));
+    yDisplay = Math.max(0, Math.min(yDisplay, rect.height));
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = xDisplay * scaleX;
+    const y = yDisplay * scaleY;
+
+    // Encode mode
+    if (isSettingSequence && activeTab === 'encode') {
+      if (clickSequence.length >= 4) {
+        toast({
+          title: "Maximum clicks reached",
+          description: "You can set a maximum of 4 click points.",
+          variant: "destructive",
+        });
+        return;
+      }
+      const newPoint = normalizeClickPoint(x, y, canvas.width, canvas.height, clickSequence.length);
+      setClickSequence(prev => [...prev, newPoint]);
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#ff0000';
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px Arial';
+        ctx.fillText((clickSequence.length + 1).toString(), x + 8, y - 8);
+      }
+      toast({
+        title: `Click point ${clickSequence.length + 1} set`,
+        description: `Coordinates: (${Math.round(xDisplay)}, ${Math.round(yDisplay)})`,
+      });
+    }
+
+    // Decode mode
+    if (isVerifyingSequence && activeTab === 'decode') {
+      if (userClickSequence.length >= extractedSequence.length) {
+        toast({
+          title: "Sequence complete",
+          description: "You have clicked all required points. Verifying...",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const newPoint = normalizeClickPoint(x, y, canvas.width, canvas.height, userClickSequence.length);
+      const newUserSequence = [...userClickSequence, newPoint];
+      setUserClickSequence(newUserSequence);
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#ff0000'; // RED dots for decode verification
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Add white border for visibility
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 14px Arial';
+        ctx.fillText((userClickSequence.length + 1).toString(), x + 10, y - 10);
+      }
+      toast({
+        title: `Verification click ${userClickSequence.length + 1}`,
+        description: `Point ${userClickSequence.length + 1} of ${extractedSequence.length} recorded`,
+      });
+
+      if (newUserSequence.length === extractedSequence.length) {
+        setTimeout(() => verifyClickSequence(newUserSequence), 500); // Small delay to show final dot
       }
     }
   };
@@ -350,6 +465,12 @@ export default function ClickSequenceAuth() {
     }
 
     try {
+      // Ensure canvas shows the original image (without any drawn markers)
+      // so only imperceptible LSB changes are encoded.
+      if (image) {
+        drawImageOnCanvas(image);
+      }
+
       const data: SteganographyData = {
         message: message.trim(),
         clickSequence
@@ -385,15 +506,22 @@ export default function ClickSequenceAuth() {
       const data = decodeMessage(canvasRef.current);
       
       if (data) {
-        setExtractedSequence(data.clickSequence);
+        // Ensure the sequence is in the correct order (defensive sort)
+        const sorted = [...data.clickSequence].sort((a, b) => a.order - b.order);
+        setExtractedSequence(sorted);
         setExtractedMessage(data.message);
-        setIsVerifyingSequence(true);
+        setIsVerifyingSequence(false); // Don't auto-start verification
         setUserClickSequence([]);
         setIsAuthenticated(false);
         
+        // Redraw image clean for verification
+        if (image) {
+          drawImageOnCanvas(image);
+        }
+        
         toast({
           title: "Encoded data found!",
-          description: `Click the ${data.clickSequence.length} authentication points in sequence to reveal the message.`,
+          description: `Found ${sorted.length} authentication points. Click "Start Click Verification" to reveal the message.`,
         });
       } else {
         toast({
@@ -412,9 +540,22 @@ export default function ClickSequenceAuth() {
   };
 
   const verifyClickSequence = (userSequence: ClickPoint[]) => {
-    const tolerance = 0.05; // 5% tolerance for click accuracy
+    const tolerance = 0.03; // 3% tolerance for click accuracy - more strict
+    
+    // Ensure we have the same number of clicks
+    if (userSequence.length !== extractedSequence.length) {
+      resetVerification();
+      toast({
+        title: "Authentication failed",
+        description: "Incorrect number of clicks. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     let isValid = true;
+    let failedAtPoint = -1;
+    
     for (let i = 0; i < userSequence.length; i++) {
       const userPoint = userSequence[i];
       const expectedPoint = extractedSequence[i];
@@ -424,6 +565,7 @@ export default function ClickSequenceAuth() {
       
       if (xDiff > tolerance || yDiff > tolerance) {
         isValid = false;
+        failedAtPoint = i + 1;
         break;
       }
     }
@@ -432,18 +574,25 @@ export default function ClickSequenceAuth() {
       setIsAuthenticated(true);
       setIsVerifyingSequence(false);
       toast({
-        title: "Authentication successful!",
-        description: "Click sequence verified. Message revealed below.",
+        title: "🎉 Authentication successful!",
+        description: "Click sequence verified perfectly. Message revealed below.",
       });
     } else {
-      setUserClickSequence([]);
-      setIsAuthenticated(false);
-      drawImageOnCanvas(image!);
+      resetVerification();
       toast({
-        title: "Authentication failed",
-        description: "Incorrect click sequence. Please try again.",
+        title: "❌ Authentication failed",
+        description: `Incorrect click at point ${failedAtPoint}. Please try again with exact precision.`,
         variant: "destructive",
       });
+    }
+  };
+  
+  const resetVerification = () => {
+    setUserClickSequence([]);
+    setIsAuthenticated(false);
+    setIsVerifyingSequence(true); // Keep verification mode active
+    if (image) {
+      drawImageOnCanvas(image); // Clear the canvas
     }
   };
 
@@ -460,11 +609,15 @@ export default function ClickSequenceAuth() {
     setIsVerifyingSequence(true);
     setUserClickSequence([]);
     setIsAuthenticated(false);
-    drawImageOnCanvas(image!);
+    
+    // Ensure image is redrawn clean for verification
+    if (image) {
+      drawImageOnCanvas(image);
+    }
     
     toast({
-      title: "Verification mode activated",
-      description: `Click the ${extractedSequence.length} authentication points in the correct sequence.`,
+      title: "🎯 Verification mode activated",
+      description: `Click the ${extractedSequence.length} authentication points in the EXACT sequence and locations. Red dots will show your clicks.`,
     });
   };
 
@@ -538,7 +691,10 @@ export default function ClickSequenceAuth() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gradient mb-4 leading-tight pb-2">Click Sequence Authentication</h1>
+        <h1 className="text-4xl font-bold text-gradient mb-2 leading-tight pb-2">Click Sequence Authentication</h1>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <Badge className="bg-green-500 text-white border-transparent">Intermediate</Badge>
+        </div>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Hide messages in images using click-based authentication. Secure your data with pixel coordinates that only you know.
         </p>
@@ -582,8 +738,8 @@ export default function ClickSequenceAuth() {
                 <canvas
                   ref={canvasRef}
                   onClick={handleCanvasClick}
-                  className={`border rounded-lg max-w-full ${isSettingSequence ? 'cursor-crosshair' : 'cursor-default'}`}
-                  style={{ maxHeight: '400px' }}
+                  className={`border rounded-lg max-w-full ${(isSettingSequence || isVerifyingSequence) ? 'cursor-crosshair' : 'cursor-default'}`}
+                  style={{ width: '100%', maxWidth: '600px', height: 'auto', maxHeight: '400px', pointerEvents: 'auto' }}
                 />
                 
                 <div className="flex gap-2 flex-wrap">
@@ -714,6 +870,7 @@ export default function ClickSequenceAuth() {
                   </div>
                 )}
 
+                {/* Only show extracted message if authenticated */}
                 {isAuthenticated && extractedMessage && (
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -730,7 +887,7 @@ export default function ClickSequenceAuth() {
                           size="sm"
                           className="absolute top-2 right-2"
                         >
-                          <Download className="h-4 w-4" />
+                          <Copy className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>

@@ -10,11 +10,13 @@ import Index from "./pages/Index";
 import Learn from "./pages/Learn";
 import Cryptography from "./pages/Cryptography";
 import Steganography from "./pages/Steganography";
+import DataProcessing from "./pages/DataProcessing";
 import CaesarCipher from "./components/crypto/CaesarCipher";
 import VigenereCipher from "./components/crypto/VigenereCipher";
 import TextInImage from "./components/stego/TextInImage";
 import AudioSteganography from "./components/stego/AudioSteganography";
 import ClickSequenceAuth from "./components/stego/ClickSequenceAuth";
+import URLProcessor from "./components/data/URLProcessor";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
@@ -62,6 +64,8 @@ function App() {
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
             <Route path="/steganography/audio" element={<AppLayout><AudioSteganography /></AppLayout>} />
             <Route path="/steganography/click-sequence" element={<AppLayout><ClickSequenceAuth /></AppLayout>} />
+            <Route path="/data-processing" element={<AppLayout><DataProcessing /></AppLayout>} />
+            <Route path="/data-processing/url-processor" element={<AppLayout><URLProcessor /></AppLayout>} />
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
