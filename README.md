@@ -230,6 +230,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+## Team Members
+
+| Name                 | Role                                | Expertise                                   | Contact                                |
+| -------------------- | ----------------------------------- | ------------------------------------------- | -------------------------------------- |
+| Hem Patel            | Backend Developer & Integration Architect | Cryptography, Full-stack Development        | [GitHub](https://github.com/hemathens) |
+| Karmadeepsinh Gohil  | Stegnography Expert | Algorithm Implementation, Security Analysis | [GitHub](#)                            |
+| Harshdeepsinh Jadeja | Cryptography Specialist | Image Processing, Covert Communications     | [GitHub](#)                            |
+| Meet Sanchaniya      | UI/UX Developer & Testing Lead | Frontend Development, User Experience       | [GitHub](#)                            |
+
 ## 🤝 Contributing
 We welcome contributions! Please see our Contributing Guidelines for details on:
 
