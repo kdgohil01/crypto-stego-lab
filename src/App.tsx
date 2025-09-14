@@ -12,6 +12,8 @@ import Cryptography from "./pages/Cryptography";
 import Steganography from "./pages/Steganography";
 import DataProcessing from "./pages/DataProcessing";
 import CaesarCipher from "./components/crypto/CaesarCipher";
+import { AESEncryption } from "./components/crypto/AESEncryption";
+import { RSAEncryption } from "./components/crypto/RSAEncryption";
 import URLProcessor from "./components/data/URLProcessor";
 import MultilayeredSecurity from "./pages/MultilayeredSecurity";
 import GuardianLayer from "./components/multilayered/GuardianLayer";
@@ -57,6 +59,8 @@ function App() {
             <Route path="/learn" element={<AppLayout><Learn /></AppLayout>} />
             <Route path="/cryptography" element={<AppLayout><Cryptography /></AppLayout>} />
             <Route path="/cryptography/caesar" element={<AppLayout><CaesarCipher /></AppLayout>} />
+            <Route path="/cryptography/aes" element={<AppLayout><AESEncryption /></AppLayout>} />
+            <Route path="/cryptography/rsa" element={<AppLayout><RSAEncryption /></AppLayout>} />
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/multilayered-security" element={<AppLayout><MultilayeredSecurity /></AppLayout>} />
             <Route path="/multilayered-security/guardian-layer" element={<AppLayout><GuardianLayer /></AppLayout>} />

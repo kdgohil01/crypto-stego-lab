@@ -1,4 +1,4 @@
-import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link, FileText, Hash, QrCode, Binary, Home, ShieldCheck } from "lucide-react";
+import { Shield, Eye, BookOpen, Lock, Unlock, Image, Volume2, MousePointer, Database, Link, FileText, Hash, QrCode, Binary, Home, ShieldCheck, Key } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -24,6 +24,8 @@ const mainItems = [
 const cryptoItems = [
   { title: "Caesar Cipher", url: "/cryptography/caesar", icon: Lock },
   { title: "Vigenère Cipher", url: "/cryptography/vigenere", icon: Unlock },
+  { title: "AES-256", url: "/cryptography/aes", icon: Shield },
+  { title: "RSA-2048", url: "/cryptography/rsa", icon: Key },
 ];
 
 const stegoItems = [

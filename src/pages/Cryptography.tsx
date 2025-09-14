@@ -18,9 +18,27 @@ const tools = [
     description: "A polyalphabetic cipher using a keyword. Much more secure than simple substitution ciphers.",
     icon: Unlock,
     path: "/cryptography/vigenere",
+    difficulty: "Beginner",
+    color: "text-white",
+    bgColor: "bg-blue-500",
+  },
+  {
+    title: "AES-256",
+    description: "Advanced Encryption Standard with 256-bit keys. Military-grade symmetric encryption with PBKDF2 key derivation.",
+    icon: Shield,
+    path: "/cryptography/aes",
     difficulty: "Intermediate",
     color: "text-white",
     bgColor: "bg-green-500",
+  },
+  {
+    title: "RSA-2048",
+    description: "Asymmetric encryption with 2048-bit keys. Generate key pairs for secure public-key cryptography.",
+    icon: Key,
+    path: "/cryptography/rsa",
+    difficulty: "Advanced",
+    color: "text-white",
+    bgColor: "bg-red-500",
   },
 ];
 
@@ -39,7 +57,7 @@ export default function Cryptography() {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid gap-6 md:grid-cols-2 mb-12">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 mb-12">
         {tools.map((tool) => (
           <Card key={tool.title} className="card-glow group hover:scale-105 transition-transform duration-300">
             <CardHeader>
