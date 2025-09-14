@@ -234,9 +234,10 @@ SOFTWARE.
 
 | Name                 | Role                                | Expertise                                   | Contact                                |
 | -------------------- | ----------------------------------- | ------------------------------------------- | -------------------------------------- |
-| Hem Patel            | Backend Developer & Integration Architect | Cryptography, Full-stack Development        | [GitHub](https://github.com/hemathens) |
-| Karmadeepsinh Gohil  | Stegnography Expert | Algorithm Implementation, Security Analysis | [GitHub](#)                            |
-| Harshdeepsinh Jadeja | Cryptography Specialist | Image Processing, Covert Communications     | [GitHub](#)                            |
+| Hem Patel            | Backend Developer & Integration Architect | Cryptography, Full-stack Development        | [![GitHub](https://img.shields.io/badge/GitHub-hemathens-181717?logo=github)](https://github.com/hemathens)
+ |
+| Karmadeepsinh Gohil  | Stegnography Expert | Algorithm Implementation, Security Analysis |[![GitHub](https://img.shields.io/badge/GitHub-kdgohil01-181717?logo=github)](https://github.com/kdgohil)|
+| Harshdeepsinh Jadeja | Cryptography Specialist | Image Processing, Covert Communications     |[![GitHub](https://img.shields.io/badge/GitHub-harshdeepsinhjadeja27-181717?logo=github)](https://github.com/harshdeepsinhjadeja27)|
 | Meet Sanchaniya      | UI/UX Developer & Testing Lead | Frontend Development, User Experience       | [GitHub](#)                            |
 
 ## 🤝 Contributing
