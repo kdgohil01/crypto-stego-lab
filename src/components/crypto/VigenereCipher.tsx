@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Copy, RotateCcw } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -54,14 +54,6 @@ export default function VigenereCipher() {
   const [plaintext, setPlaintext] = useState("");
   const [ciphertext, setCiphertext] = useState("");
   const [key, setKey] = useState("CRYPTO");
-  const [activeTab, setActiveTab] = useState("encrypt");
-
-  // Reset fields when switching between encrypt/decrypt tabs
-  useEffect(() => {
-    setPlaintext("");
-    setCiphertext("");
-    setKey("CRYPTO");
-  }, [activeTab]);
 
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only allow letters (a-z, A-Z), filter out numbers and special characters
@@ -187,7 +179,7 @@ export default function VigenereCipher() {
             </Card>
           )}
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
+          <Tabs defaultValue="encrypt" className="mt-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="encrypt">Encrypt</TabsTrigger>
               <TabsTrigger value="decrypt">Decrypt</TabsTrigger>

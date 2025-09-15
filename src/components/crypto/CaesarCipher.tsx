@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Copy, RotateCcw } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -30,15 +30,8 @@ export default function CaesarCipher() {
   const [plaintext, setPlaintext] = useState("");
   const [ciphertext, setCiphertext] = useState("");
   const [shift, setShift] = useState(3);
-  const [activeTab, setActiveTab] = useState("encrypt");
   const { toast } = useToast();
 
-  // Reset fields when switching between encrypt/decrypt tabs
-  useEffect(() => {
-    setPlaintext("");
-    setCiphertext("");
-    setShift(3);
-  }, [activeTab]);
 
   const handleEncrypt = () => {
     const result = caesarEncrypt(plaintext, shift);
@@ -118,7 +111,7 @@ export default function CaesarCipher() {
             </Card>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
+          <Tabs defaultValue="encrypt" className="mt-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="encrypt">Encrypt</TabsTrigger>
               <TabsTrigger value="decrypt">Decrypt</TabsTrigger>
