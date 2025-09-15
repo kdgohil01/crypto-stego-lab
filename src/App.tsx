@@ -16,6 +16,12 @@ import VigenereCipher from "./components/crypto/VigenereCipher";
 import { AESEncryption } from "./components/crypto/AESEncryption";
 import { RSAEncryption } from "./components/crypto/RSAEncryption";
 import URLProcessor from "./components/data/URLProcessor";
+import JSONFormatter from "./pages/JSONFormatter";
+import HashGenerator from "./pages/HashGenerator";
+import QRGenerator from "./pages/QRGenerator";
+import BinaryConverter from "./pages/BinaryConverter";
+import VideoSteganographyDev from "./pages/VideoSteganographyDev";
+import AudioSteganographyDev from "./pages/AudioSteganographyDev";
 import MultilayeredSecurity from "./pages/MultilayeredSecurity";
 import GuardianLayer from "./components/multilayered/GuardianLayer";
 import TextInImage from "./components/stego/TextInImage";
@@ -70,12 +76,18 @@ function App() {
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
             <Route path="/steganography/video" element={<AppLayout><VideoSteganography /></AppLayout>} />
+            <Route path="/steganography/video-steganography" element={<AppLayout><VideoSteganographyDev /></AppLayout>} />
             <Route path="/steganography/click-sequence" element={<AppLayout><ClickSequenceAuth /></AppLayout>} />
             <Route path="/steganography/audio" element={<AppLayout><AudioSteganography /></AppLayout>} />
+            <Route path="/steganography/audio-steganography" element={<AppLayout><AudioSteganographyDev /></AppLayout>} />
             <Route path="/multilayered-security" element={<AppLayout><MultilayeredSecurity /></AppLayout>} />
             <Route path="/multilayered-security/guardian-layer" element={<AppLayout><GuardianLayer /></AppLayout>} />
             <Route path="/data-processing" element={<AppLayout><DataProcessing /></AppLayout>} />
             <Route path="/data-processing/url-processor" element={<AppLayout><URLProcessor /></AppLayout>} />
+            <Route path="/data-processing/json-formatter" element={<AppLayout><JSONFormatter /></AppLayout>} />
+            <Route path="/data-processing/hash-generator" element={<AppLayout><HashGenerator /></AppLayout>} />
+            <Route path="/data-processing/qr-generator" element={<AppLayout><QRGenerator /></AppLayout>} />
+            <Route path="/data-processing/binary-converter" element={<AppLayout><BinaryConverter /></AppLayout>} />
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>

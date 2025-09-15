@@ -23,8 +23,8 @@ const tools = [
     bgColor: "bg-green-500",
   },
   {
-    title: "Audio Steganography",
-    description: "Hide messages in audio files using LSB manipulation. Changes are inaudible to human ears.",
+    title: "Text in Audio",
+    description: "Hide text messages in audio files using LSB manipulation. Changes are inaudible to human ears.",
     icon: Volume2,
     path: "/steganography/audio",
     difficulty: "Intermediate",
@@ -32,8 +32,8 @@ const tools = [
     bgColor: "bg-green-500",
   },
   {
-    title: "Video Steganography",
-    description: "Hide secret messages inside video files using military-grade AES-256 encryption and advanced techniques.",
+    title: "Text in Video",
+    description: "Hide secret text messages inside video files using military-grade AES-256 encryption and advanced techniques.",
     icon: Video,
     path: "/steganography/video",
     difficulty: "Advanced",
@@ -88,11 +88,16 @@ export default function Steganography() {
           <CardTitle className="text-xl text-muted-foreground">Coming Soon</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-1 max-w-sm mx-auto">
+          <div className="grid gap-4 md:grid-cols-2 max-w-lg mx-auto">
+            <div className="text-center p-4 rounded-lg bg-muted/10">
+              <Volume2 className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">Audio Steganography</h3>
+              <p className="text-xs text-muted-foreground">Convert audio files into text data</p>
+            </div>
             <div className="text-center p-4 rounded-lg bg-muted/10">
               <Layers className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
               <h3 className="font-semibold mb-1 text-muted-foreground">Video Steganography</h3>
-              <p className="text-xs text-muted-foreground">Embed data in video streams</p>
+              <p className="text-xs text-muted-foreground">Convert video files into text data</p>
             </div>
           </div>
         </CardContent>

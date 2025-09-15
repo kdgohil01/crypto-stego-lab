@@ -319,12 +319,12 @@ export default function VideoSteganography() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gradient mb-2 leading-tight pb-2">Video Steganography</h1>
+        <h1 className="text-4xl font-bold text-gradient mb-2 leading-tight pb-2">Text in Video</h1>
         <div className="flex items-center justify-center gap-2 mb-2">
           <Badge className="bg-red-500 text-white border-transparent">Advanced</Badge>
         </div>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Hide secret messages inside video files using military-grade AES-256 encryption. Advanced steganography with password protection.
+          Hide secret text messages inside video files using military-grade AES-256 encryption. Advanced steganography with password protection.
         </p>
       </div>
 
@@ -410,7 +410,7 @@ export default function VideoSteganography() {
         {/* Steganography Operations */}
         <Card className="card-glow">
           <CardHeader>
-            <CardTitle>Video Steganography Operations</CardTitle>
+            <CardTitle>Text in Video Operations</CardTitle>
             <CardDescription>
               Encode messages into videos or decode hidden messages
             </CardDescription>
@@ -572,9 +572,9 @@ export default function VideoSteganography() {
       {/* How It Works */}
       <Card className="card-glow mt-8">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">How Video Steganography Works</CardTitle>
+          <CardTitle className="text-2xl">How Text in Video Works</CardTitle>
           <CardDescription className="text-base">
-            Understanding advanced video steganography with AES-256 encryption
+            Understanding advanced text-in-video steganography with AES-256 encryption
           </CardDescription>
         </CardHeader>
         <CardContent>

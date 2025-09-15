@@ -387,9 +387,9 @@ export default function AudioSteganography() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gradient mb-4 leading-tight pb-2">Audio Steganography</h1>
+        <h1 className="text-4xl font-bold text-gradient mb-4 leading-tight pb-2">Text in Audio</h1>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Hide secret messages inside audio files using LSB (Least Significant Bit) manipulation. The changes are inaudible to human ears.
+          Hide secret text messages inside audio files using LSB (Least Significant Bit) manipulation. The changes are inaudible to human ears.
         </p>
       </div>
 
@@ -577,9 +577,9 @@ export default function AudioSteganography() {
       {/* How It Works */}
       <Card className="card-glow mt-8">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">How Audio Steganography Works</CardTitle>
+          <CardTitle className="text-2xl">How Text in Audio Works</CardTitle>
           <CardDescription className="text-base">
-            Understanding LSB manipulation in digital audio
+            Understanding text-in-audio steganography with LSB manipulation
           </CardDescription>
         </CardHeader>
         <CardContent>

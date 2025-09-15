@@ -31,8 +31,10 @@ const cryptoItems = [
 const stegoItems = [
   { title: "Text in Image", url: "/steganography/text-image", icon: Image },
   { title: "Click Sequential Authentication", url: "/steganography/click-sequence", icon: MousePointer },
-  { title: "Audio Steganography", url: "/steganography/audio", icon: Volume2 },
-  { title: "Video Steganography", url: "/steganography/video", icon: Video },
+  { title: "Text in Audio", url: "/steganography/audio", icon: Volume2 },
+  { title: "Audio Steganography", url: "/steganography/audio-steganography", icon: Volume2 },
+  { title: "Text in Video", url: "/steganography/video", icon: Video },
+  { title: "Video Steganography", url: "/steganography/video-steganography", icon: Video },
 ];
 
 const dataProcessingItems = [
