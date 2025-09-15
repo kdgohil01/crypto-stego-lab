@@ -1,0 +1,9 @@
+tkinter
+cryptography==41.0.7
+base64
+os
+threading
+tkinter.ttk
+tkinter.filedialog
+tkinter.messagebox
+tkinter.scrolledtext
