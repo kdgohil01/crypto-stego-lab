@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cryptography & Steganography Learning Platform Design System
+All colors MUST be HSL for consistency and theming.
+*/
+
+@layer base {
+  :root {
+    /* Core cryptography theme colors */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 5.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 5.9%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary: Deep cryptographic blue */
+    --primary: 217 91% 60%;
+    --primary-foreground: 240 10% 3.9%;
+    --primary-glow: 217 91% 70%;
+
+    /* Secondary: Cyber green accent */
+    --secondary: 142 76% 36%;
+    --secondary-foreground: 0 0% 98%;
+    --secondary-glow: 142 76% 46%;
+
+    /* Muted tones */
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 64.9%;
+
+    /* Accent: Electric cyan */
+    --accent: 180 100% 50%;
+    --accent-foreground: 240 10% 3.9%;
+
+    /* Warning/Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* UI Elements */
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(142 76% 36%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(240 10% 5.9%) 0%, hsl(240 6% 8%) 100%);
+
+    /* Shadows with glow effects */
+    --shadow-glow-primary: 0 0 20px hsl(217 91% 60% / 0.3);
+    --shadow-glow-secondary: 0 0 20px hsl(142 76% 36% / 0.3);
+    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.5);
+
+    /* Animation timings */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Sidebar */
+    --sidebar-background: 240 10% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 240 10% 3.9%;
+    --sidebar-accent: 240 6% 20%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 6% 20%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 142 76% 36%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 240 10% 3.9%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 217 91% 60%;
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(142 76% 36%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(240 5% 96%) 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/50 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent/70;
+  }
+}
+
+@layer components {
+  /* Hero button variant */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-secondary text-primary-foreground 
+           hover:shadow-[0_0_20px_hsl(217_91%_60%/0.4)] 
+           transition-all duration-300 hover:scale-105;
+  }
+
+  /* Glowing card effect */
+  .card-glow {
+    @apply bg-gradient-to-br from-card to-muted/50 
+           border border-border/50 backdrop-blur-sm
+           hover:border-primary/30 hover:shadow-[0_0_20px_hsl(217_91%_60%/0.2)]
+           transition-all duration-300;
+  }
+
+  /* Input with cyber glow */
+  .input-cyber {
+    @apply bg-muted/50 border-border/50 focus:border-primary/50 
+           focus:ring-2 focus:ring-primary/20 focus:shadow-[0_0_10px_hsl(217_91%_60%/0.3)]
+           transition-all duration-300;
+  }
+
+  /* Animated gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    /* Ensure proper rendering and prevent clipping */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding-bottom: 2px;
+    line-height: 1.1;
+  }
+
+  /* Pulse animation for loading states */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 5px hsl(217 91% 60% / 0.2);
+    }
+    100% {
+      box-shadow: 0 0 20px hsl(217 91% 60% / 0.6), 0 0 30px hsl(217 91% 60% / 0.4);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+}

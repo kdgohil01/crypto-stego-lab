@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 CyberVault - Media Encryption Suite</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Welcome Animation Screen -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <h1 class="animated-title">🔐 CyberVault</h1>
+            <p class="subtitle">Media Encryption Suite</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="main-app" class="main-app hidden">
+        <header class="app-header">
+            <h1>🔐 CyberVault - Media Encryption Suite</h1>
+            <p class="tagline">Secure your media files with military-grade encryption</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="encrypt">
+                    <i class="fas fa-lock"></i> Encrypt
+                </button>
+                <button class="tab-btn" data-tab="decrypt">
+                    <i class="fas fa-unlock"></i> Decrypt
+                </button>
+                <button class="tab-btn" data-tab="learning">
+                    <i class="fas fa-graduation-cap"></i> Learning
+                </button>
+            </div>
+
+            <!-- Encrypt Tab -->
+            <div id="encrypt-tab" class="tab-content active">
+                <div class="content-section">
+                    <h2><i class="fas fa-shield-alt"></i> Encrypt Media Files</h2>
+                    <p class="description">Convert your video/audio files into secure encrypted text format</p>
+                    
+                    <div class="file-selection">
+                        <div class="file-input-container">
+                            <input type="file" id="encrypt-file-input" accept=".mp4,.avi,.mov,.mkv,.wmv,.mp3,.wav,.m4a,.flac,.aac" hidden>
+                            <button class="file-select-btn" onclick="document.getElementById('encrypt-file-input').click()">
+                                <i class="fas fa-folder-open"></i> Select Media File
+                            </button>
+                            <span id="encrypt-file-name" class="file-name">No file selected</span>
+                        </div>
+                    </div>
+
+                    <div class="password-section">
+                        <label for="encrypt-password">Enter Password:</label>
+                        <div class="password-input-container">
+                            <input type="password" id="encrypt-password" placeholder="Enter a strong password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('encrypt-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="encrypt-btn" class="action-btn encrypt-btn" disabled>
+                        <i class="fas fa-lock"></i> Encrypt to Text
+                    </button>
+
+                    <div id="encrypt-progress" class="progress-container hidden">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">Encrypting... 0%</span>
+                    </div>
+
+                    <div id="encrypt-result" class="result-container hidden">
+                        <h3><i class="fas fa-check-circle"></i> Encryption Complete!</h3>
+                        <p>Your file has been encrypted successfully.</p>
+                        <button id="download-encrypted" class="download-btn">
+                            <i class="fas fa-download"></i> Download Encrypted File
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decrypt Tab -->
+            <div id="decrypt-tab" class="tab-content">
+                <div class="content-section">
+                    <h2><i class="fas fa-unlock-alt"></i> Decrypt Media Files</h2>
+                    <p class="description">Restore your original media files from encrypted text</p>
+                    
+                    <div class="file-selection">
+                        <div class="file-input-container">
+                            <input type="file" id="decrypt-file-input" accept=".txt" hidden>
+                            <button class="file-select-btn" onclick="document.getElementById('decrypt-file-input').click()">
+                                <i class="fas fa-file-alt"></i> Select Encrypted Text File
+                            </button>
+                            <span id="decrypt-file-name" class="file-name">No file selected</span>
+                        </div>
+                    </div>
+
+                    <div class="password-section">
+                        <label for="decrypt-password">Enter Password:</label>
+                        <div class="password-input-container">
+                            <input type="password" id="decrypt-password" placeholder="Enter the same password used for encryption" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('decrypt-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="decrypt-btn" class="action-btn decrypt-btn" disabled>
+                        <i class="fas fa-unlock"></i> Decrypt to Media
+                    </button>
+
+                    <div id="decrypt-progress" class="progress-container hidden">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">Decrypting... 0%</span>
+                    </div>
+
+                    <div id="decrypt-result" class="result-container hidden">
+                        <h3><i class="fas fa-check-circle"></i> Decryption Complete!</h3>
+                        <p>Your original media file has been restored successfully.</p>
+                        <button id="download-decrypted" class="download-btn">
+                            <i class="fas fa-download"></i> Download Original File
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Tab -->
+            <div id="learning-tab" class="tab-content">
+                <div class="content-section">
+                    <h2><i class="fas fa-book-open"></i> How to Use CyberVault</h2>
+                    
+                    <div class="learning-content">
+                        <div class="instruction-section">
+                            <h3><i class="fas fa-info-circle"></i> WELCOME TO CYBERVAULT</h3>
+                            <p>Your ultimate solution for media file encryption and decryption!</p>
+                            <p>This application allows you to securely encrypt video and audio files into text format and decrypt them back to their original form using military-grade AES-256 encryption.</p>
+                        </div>
+
+                        <div class="instruction-section">
+                            <h3><i class="fas fa-lock"></i> ENCRYPTION PROCESS</h3>
+                            <ol>
+                                <li>Go to the "Encrypt" tab</li>
+                                <li>Click "Select Media File" and choose your video/audio file</li>
+                                <li>Enter a strong, memorable password</li>
+                                <li>Click "Encrypt to Text" button</li>
+                                <li>Wait for the encryption process to complete</li>
+                                <li>Download your encrypted text file</li>
+                            </ol>
+                        </div>
+
+                        <div class="instruction-section">
+                            <h3><i class="fas fa-unlock"></i> DECRYPTION PROCESS</h3>
+                            <ol>
+                                <li>Go to the "Decrypt" tab</li>
+                                <li>Click "Select Encrypted Text File" and choose your .txt file</li>
+                                <li>Enter the SAME password used for encryption</li>
+                                <li>Click "Decrypt to Media" button</li>
+                                <li>Wait for the decryption process to complete</li>
+                                <li>Download your restored original media file</li>
+                            </ol>
+                        </div>
+
+                        <div class="instruction-section">
+                            <h3><i class="fas fa-shield-alt"></i> SECURITY FEATURES</h3>
+                            <ul>
+                                <li><strong>AES-256 Encryption:</strong> Military-grade encryption standard</li>
+                                <li><strong>PBKDF2 Key Derivation:</strong> Secure password-based key generation</li>
+                                <li><strong>Base64 Encoding:</strong> Safe text representation of binary data</li>
+                                <li><strong>Salt-based Security:</strong> Each encryption uses unique salt for added security</li>
+                            </ul>
+                        </div>
+
+                        <div class="instruction-section warning">
+                            <h3><i class="fas fa-exclamation-triangle"></i> IMPORTANT NOTES</h3>
+                            <div class="warning-content">
+                                <h4>Password Security:</h4>
+                                <ul>
+                                    <li>Use strong, unique passwords</li>
+                                    <li>Store passwords securely</li>
+                                    <li><strong>Lost passwords cannot be recovered!</strong></li>
+                                </ul>
+                                
+                                <h4>Supported Formats:</h4>
+                                <ul>
+                                    <li><strong>Video:</strong> MP4, AVI, MOV, MKV, WMV</li>
+                                    <li><strong>Audio:</strong> MP3, WAV, M4A, FLAC, AAC</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="instruction-section tips">
+                            <h3><i class="fas fa-lightbulb"></i> TIPS FOR BEST RESULTS</h3>
+                            <ol>
+                                <li>Test with small files first to understand the process</li>
+                                <li>Keep backup copies of important files</li>
+                                <li>Use descriptive names for encrypted text files</li>
+                                <li>Don't edit encrypted text files manually</li>
+                                <li>Ensure sufficient storage space for the process</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="crypto-utils.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
