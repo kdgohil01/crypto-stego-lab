@@ -65,7 +65,7 @@ export default function Steganography() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${tool.bgColor}`}>
                   <tool.icon className={`h-6 w-6 ${tool.color}`} />
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${tool.color} ${tool.bgColor}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${tool.difficulty === 'Beginner' ? 'bg-blue-500' : tool.difficulty === 'Intermediate' ? 'bg-green-500' : 'bg-red-500'}`}>
                   {tool.difficulty}
                 </span>
               </div>

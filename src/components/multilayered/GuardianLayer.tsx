@@ -541,11 +541,11 @@ export default function GuardianLayer() {
                   <Label>4-Click Security Sequence</Label>
                   {selectedImage ? (
                     <div className="space-y-2">
-                      <div className="relative">
+                      <div className="relative w-full aspect-square">
                         <img
                           src={URL.createObjectURL(selectedImage)}
                           alt="Selected"
-                          className="w-full max-w-sm border rounded cursor-crosshair"
+                          className="absolute inset-0 w-full h-full object-cover border rounded cursor-crosshair"
                           onClick={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
                             const x = e.clientX - rect.left;

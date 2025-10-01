@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Shield, Lock, Unlock, Key, Zap } from "lucide-react";
+import { Shield, Lock, Unlock, Key, Zap, Columns3 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -14,6 +14,7 @@ const tools = [
     bgColor: "bg-blue-500",
   },
   {
+    title: "Vigenère Cipher",
     description: "A polyalphabetic cipher using a keyword. Much more secure than simple substitution ciphers.",
     icon: Unlock,
     path: "/cryptography/vigenere",
@@ -24,11 +25,20 @@ const tools = [
   {
     title: "Transport Cipher",
     description: "A transposition cipher that rearranges the positions of characters in the plaintext according to a system.",
-    icon: Lock,
+    icon: Columns3,
     path: "/cryptography/transport",
-    difficulty: "Intermediate",
+    difficulty: "Beginner",
     color: "text-white",
     bgColor: "bg-blue-500",
+  },
+  {
+    title: "AES-256",
+    description: "AES-256-GCM text encryption/decryption with password-based key derivation.",
+    icon: Shield,
+    path: "/cryptography/aes",
+    difficulty: "Intermediate",
+    color: "text-white",
+    bgColor: "bg-green-500",
   },
   {
     title: "RSA-2048",
@@ -64,7 +74,7 @@ export default function Cryptography() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${tool.bgColor}`}>
                   <tool.icon className={`h-6 w-6 ${tool.color}`} />
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${tool.color} ${tool.bgColor}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${tool.difficulty === 'Beginner' ? 'bg-blue-500' : tool.difficulty === 'Intermediate' ? 'bg-green-500' : 'bg-red-500'}`}>
                   {tool.difficulty}
                 </span>
               </div>

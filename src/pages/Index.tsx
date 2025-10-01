@@ -50,16 +50,16 @@ const Index = () => {
                 </Link>
               </Button>
               <Button asChild size="lg" className="bg-red-500 hover:bg-red-600 text-lg px-8 py-6">
-                <Link to="/data-processing" className="gap-2">
-                  <Database className="h-5 w-5" />
-                  Data Processing
+                <Link to="/multilayered-security" className="gap-2">
+                  <Lock className="h-5 w-5" />
+                  Try Multilayered Security
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" className="bg-purple-500 hover:bg-purple-600 text-lg px-8 py-6">
-                <Link to="/multilayered-security" className="gap-2">
-                  <Lock className="h-5 w-5" />
-                  Try Multilayered Security
+                <Link to="/data-processing" className="gap-2">
+                  <Database className="h-5 w-5" />
+                  Data Processing
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

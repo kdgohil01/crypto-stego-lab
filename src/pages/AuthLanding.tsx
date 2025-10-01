@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Shield, Eye, Lock } from "lucide-react";
+import { isFirebaseConfigured } from "@/firebase";
 
 const AuthLanding = () => {
   const { signInWithGoogle } = useAuth();
@@ -40,14 +41,16 @@ const AuthLanding = () => {
       <div className="relative z-10 mt-8 flex gap-4">
         <button
           onClick={handleSignIn}
-          className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black font-semibold transition-all shadow-lg"
+          disabled={!isFirebaseConfigured}
+          title={!isFirebaseConfigured ? "Firebase not configured" : undefined}
+          className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black font-semibold transition-all shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <img
             src="https://developers.google.com/identity/images/g-logo.png"
             alt="Google Logo"
             className="w-5 h-5"
           />
-          Continue with Google
+          {isFirebaseConfigured ? "Continue with Google" : "Firebase not configured"}
         </button>
       </div>
 

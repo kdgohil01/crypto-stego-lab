@@ -5,15 +5,6 @@ import { Button } from "@/components/ui/button";
 
 const tools = [
   {
-    title: "URL Processor",
-    description: "Multi-level security encoding tool with URL encoding, Base64, and AES-256 encryption capabilities.",
-    icon: LinkIcon,
-    path: "/data-processing/url-processor",
-    difficulty: "Advanced",
-    color: "text-white",
-    bgColor: "bg-red-500",
-  },
-  {
     title: "Binary Converter",
     description: "Binary conversion and visualization tool with support for text and custom binary data.",
     icon: Binary,
@@ -21,6 +12,15 @@ const tools = [
     difficulty: "Intermediate",
     color: "text-white",
     bgColor: "bg-green-500"
+  },
+  {
+    title: "URL Processor",
+    description: "Multi-level security encoding tool with URL encoding, Base64, and AES-256 encryption capabilities.",
+    icon: LinkIcon,
+    path: "/data-processing/url-processor",
+    difficulty: "Advanced",
+    color: "text-white",
+    bgColor: "bg-red-500",
   },
 ];
 
@@ -47,7 +47,7 @@ export default function DataProcessing() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${tool.bgColor}`}>
                   <tool.icon className={`h-6 w-6 ${tool.color}`} />
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${tool.color} ${tool.bgColor}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${tool.difficulty === 'Beginner' ? 'bg-blue-500' : tool.difficulty === 'Intermediate' ? 'bg-green-500' : 'bg-red-500'}`}>
                   {tool.difficulty}
                 </span>
               </div>
