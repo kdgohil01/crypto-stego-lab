@@ -50,16 +50,16 @@ const Index = () => {
                 </Link>
               </Button>
               <Button asChild size="lg" className="bg-red-500 hover:bg-red-600 text-lg px-8 py-6">
-                <Link to="/multilayered-security" className="gap-2">
-                  <Lock className="h-5 w-5" />
-                  Try Multilayered Security
+                <Link to="/data-processing" className="gap-2">
+                  <Database className="h-5 w-5" />
+                  Data Processing
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" className="bg-purple-500 hover:bg-purple-600 text-lg px-8 py-6">
-                <Link to="/data-processing" className="gap-2">
-                  <Database className="h-5 w-5" />
-                  Try Data Processing
+                <Link to="/multilayered-security" className="gap-2">
+                  <Lock className="h-5 w-5" />
+                  Try Multilayered Security
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -82,7 +82,7 @@ const Index = () => {
             {/* Cryptography */}
             <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col border-primary/20">
               <CardHeader className="text-center pb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-6 group-hover:shadow-glow-primary transition-all duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6 group-hover:shadow-glow-primary transition-all duration-300">
                   <Shield className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl mb-2">Cryptography</CardTitle>
@@ -93,7 +93,6 @@ const Index = () => {
               <CardContent className="space-y-4 flex-1 flex flex-col">
                 <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
-                    <Lock className="h-4 w-4 text-primary" />
                     <span>AES-256 & RSA-2048 Encryption</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm">
@@ -111,10 +110,9 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Steganography */}
             <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col border-secondary/20">
               <CardHeader className="text-center pb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary mb-6 group-hover:shadow-glow-secondary transition-all duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-secondary mb-6 group-hover:shadow-glow-secondary transition-all duration-300">
                   <Eye className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl mb-2">Steganography</CardTitle>
@@ -143,7 +141,6 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Data Processing */}
             <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 mb-6 group-hover:shadow-[0_0_20px_hsl(270_100%_50%/0.4)] transition-all duration-300">

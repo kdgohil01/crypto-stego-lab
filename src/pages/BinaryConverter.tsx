@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { BinaryConverter as BinaryConverterComponent } from "@/components/data/binary-converter";
 
@@ -17,6 +17,12 @@ export default function BinaryConverter() {
       </div>
 
       <Card className="card-glow border-blue-200/20">
+        <CardHeader className="text-center pb-8">
+          <CardTitle className="text-3xl mb-4">Binary Converter</CardTitle>
+          <CardDescription className="text-lg">
+            Convert between binary, text, and other number systems
+          </CardDescription>
+        </CardHeader>
         <CardContent className="p-6">
           <BinaryConverterComponent/>
         </CardContent>

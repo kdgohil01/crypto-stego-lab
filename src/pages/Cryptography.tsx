@@ -14,7 +14,6 @@ const tools = [
     bgColor: "bg-blue-500",
   },
   {
-    title: "Vigenère Cipher",
     description: "A polyalphabetic cipher using a keyword. Much more secure than simple substitution ciphers.",
     icon: Unlock,
     path: "/cryptography/vigenere",
@@ -27,18 +26,9 @@ const tools = [
     description: "A transposition cipher that rearranges the positions of characters in the plaintext according to a system.",
     icon: Lock,
     path: "/cryptography/transport",
-    difficulty: "Beginner",
-    color: "text-white",
-    bgColor: "bg-blue-500",
-  },
-  {
-    title: "AES-256",
-    description: "Advanced Encryption Standard with 256-bit keys. Military-grade symmetric encryption with PBKDF2 key derivation.",
-    icon: Shield,
-    path: "/cryptography/aes",
     difficulty: "Intermediate",
     color: "text-white",
-    bgColor: "bg-green-500",
+    bgColor: "bg-blue-500",
   },
   {
     title: "RSA-2048",

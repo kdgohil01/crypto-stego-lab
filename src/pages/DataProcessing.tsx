@@ -20,7 +20,7 @@ const tools = [
     path: "/data-processing/binary-converter",
     difficulty: "Intermediate",
     color: "text-white",
-    bgColor: "bg-green-500",
+    bgColor: "bg-green-500"
   },
 ];
 

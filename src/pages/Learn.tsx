@@ -38,7 +38,6 @@ export default function Learn() {
               <div className="flex items-start gap-3">
                 <Key className="h-5 w-5 text-primary mt-1" />
                 <div>
-                  <h4 className="font-semibold">Keys & Algorithms</h4>
                   <p className="text-sm text-muted-foreground">Mathematical methods and secret keys used for encryption</p>
                 </div>
               </div>
