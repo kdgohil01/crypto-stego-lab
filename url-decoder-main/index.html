@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encode/Decode Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Level Security Encryption Tool</h1>
+        
+        <div class="input-group">
+            <label for="inputText">Enter your text:</label>
+            <textarea id="inputText" rows="6" placeholder="Type or paste your text here..."></textarea>
+        </div>
+
+        <div class="button-group">
+            <button id="encodeBtn">Level 1 Encode</button>
+            <button id="decodeBtn">Level 1 Decode</button>
+            <button id="base64EncodeBtn">Level 2 Encode</button>
+            <button id="base64DecodeBtn">Level 2 Decode</button>
+            <button id="aesEncryptBtn">Level 3 Encrypt</button>
+            <button id="aesDecryptBtn">Level 3 Decrypt</button>
+            <button id="resetBtn">Reset</button>
+            <button id="learnBtn">Learn</button>
+        </div>
+
+        <div class="input-group">
+            <label for="outputText">Result:</label>
+            <textarea id="outputText" rows="6" readonly></textarea>
+        </div>
+    </div>
+
+    <!-- Learn Modal -->
+    <div id="learnModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>About Security Levels</h2>
+            <div class="learn-content">
+                <h3>Security Level Overview</h3>
+                <p>This tool provides three levels of security encryption, each offering different levels of protection and complexity.</p>
+                
+                <h3>Level 1 Security (URL Encoding)</h3>
+                <p>Basic encoding for web transmission. Converts special characters to URL-safe format. <strong>Low security</strong> - easily reversible.</p>
+                
+                <h3>Level 2 Security (Base64)</h3>
+                <p>Medium security encoding that converts text to Base64 format. <strong>Medium security</strong> - requires knowledge of Base64 decoding.</p>
+                
+                <h3>Level 3 Security (AES Encryption)</h3>
+                <p>High security encryption using AES-256 with password protection. <strong>High security</strong> - requires correct password to decrypt.</p>
+                
+                <h3>When to use each level?</h3>
+                <ul>
+                    <li><strong>Level 1:</strong> URL parameters, basic text encoding</li>
+                    <li><strong>Level 2:</strong> Data obfuscation, simple encoding needs</li>
+                    <li><strong>Level 3:</strong> Sensitive data, secure communication</li>
+                </ul>
+
+                <h3>Examples:</h3>
+                <p><strong>Level 1:</strong> "Hello World!" ⇄ <code>Hello%20World%21</code></p>
+                <p><strong>Level 2:</strong> "Hello" ⇄ <code>SGVsbG8=</code></p>
+                <p><strong>Level 3:</strong> "Hello" + password ⇄ <code>encrypted_data</code></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
