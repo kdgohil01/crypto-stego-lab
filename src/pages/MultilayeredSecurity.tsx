@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,13 +16,14 @@ import {
 } from "lucide-react";
 
 export default function MultilayeredSecurity() {
+  const navigate = useNavigate();
   const tools = [
     {
       id: 'guardian-layer',
       title: 'Guardian Layer',
-      description: 'Military-grade multi-layer encryption combining AES-256, RSA-2048, and advanced steganography with 4-click authentication.',
+      description: 'Military-grade multi-layer encryption combining AES-256, RSA-2048, and advanced steganography with 5-click pixel lock authentication.',
       icon: ShieldCheck,
-      features: ['AES-256 Encryption', 'RSA-2048 Keys', 'Image Steganography', '4-Click Authentication'],
+      features: ['AES-256 Encryption', 'RSA-2048 Keys', 'Image Steganography', '5-Click Authentication'],
       status: 'Military Grade',
       path: '/multilayered-security/guardian-layer'
     }
@@ -61,8 +62,8 @@ export default function MultilayeredSecurity() {
         <Card className="card-glow text-center border-green-500/20">
           <CardContent className="pt-6">
             <div className="text-3xl font-bold text-green-500 mb-2">Level 3</div>
-            <div className="text-sm text-muted-foreground">Steganography</div>
-            <div className="text-xs text-muted-foreground mt-1">Hidden in Plain Sight</div>
+            <div className="text-sm text-muted-foreground">Pixel Lock</div>
+            <div className="text-xs text-muted-foreground mt-1">Visual Authentication</div>
           </CardContent>
         </Card>
       </div>
@@ -109,7 +110,7 @@ export default function MultilayeredSecurity() {
 
                 <div className="pt-4">
                   <Button 
-                    onClick={() => window.location.href = '/multilayered-security/guardian-layer'}
+                    onClick={() => navigate('/multilayered-security/guardian-layer')}
                     className="w-full"
                   >
                     <Shield className="mr-2 h-4 w-4" />
@@ -173,18 +174,18 @@ export default function MultilayeredSecurity() {
           <Card className="card-glow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Image className="h-5 w-5 text-primary" />
-                Steganographic Hiding
+                <Lock className="h-5 w-5 text-primary" />
+                Pixel Lock Authentication
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                Hide encrypted data within images, making it invisible to casual observation.
+                Authenticate by clicking 5 points on an image, creating a unique key derived from both the points and image content.
               </p>
               <div className="space-y-2">
-                <div className="text-xs text-muted-foreground">• LSB pixel manipulation</div>
-                <div className="text-xs text-muted-foreground">• 4-click authentication</div>
-                <div className="text-xs text-muted-foreground">• Visual imperceptibility</div>
+                <div className="text-xs text-muted-foreground">• 5-point pixel lock authentication</div>
+                <div className="text-xs text-muted-foreground">• Image-based key derivation</div>
+                <div className="text-xs text-muted-foreground">• Human-tolerated click precision</div>
               </div>
             </CardContent>
           </Card>
@@ -210,8 +211,8 @@ export default function MultilayeredSecurity() {
                 </div>
                 <div className="text-center p-4 rounded-lg bg-background/50">
                   <Eye className="h-8 w-8 mx-auto mb-2 text-green-500" />
-                  <h4 className="font-semibold mb-1">Basic Steganography</h4>
-                  <p className="text-xs text-muted-foreground">Hidden but unencrypted</p>
+                  <h4 className="font-semibold mb-1">Pixel Lock Authentication</h4>
+                  <p className="text-xs text-muted-foreground">Visual key derivation</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-background/50 border-2 border-primary/20">
                   <ShieldCheck className="h-8 w-8 mx-auto mb-2 text-primary" />
@@ -219,7 +220,6 @@ export default function MultilayeredSecurity() {
                   <p className="text-xs text-muted-foreground">Triple-layer protection</p>
                 </div>
               </div>
-              
             </div>
           </CardContent>
         </Card>

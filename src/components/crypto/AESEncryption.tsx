@@ -108,7 +108,7 @@ export const AESEncryption = () => {
           <CardTitle className="flex items-center space-x-2">
             <Shield className="h-5 w-5 text-primary" />
             <span>AES-256 Encryption</span>
-            <Badge variant="secondary">Intermediate</Badge>
+            <Badge className="text-white bg-green-500">Intermediate</Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -214,7 +214,10 @@ export const AESEncryption = () => {
             <AlertCircle className="h-4 w-4 text-primary mt-0.5" />
             <div className="text-sm text-muted-foreground">
               <p className="font-medium">Security Note:</p>
-              <p>AES-256 uses a 256-bit key with PBKDF2 key derivation and 100,000 iterations for maximum security.</p>
+              <p>
+                This tool demonstrates AES-256-GCM with password-based key derivation. For files, a common educational
+                format is: [8B MAGIC][1B VER][16B SALT][12B NONCE][ciphertext||16B TAG], with keys derived using scrypt.
+              </p>
             </div>
           </div>
         </CardContent>

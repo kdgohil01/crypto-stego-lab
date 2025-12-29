@@ -35,31 +35,31 @@ const Index = () => {
               Explore cryptography, steganography, and data processing with interactive tools. Learn to encrypt messages, hide secrets in images, and process data with multiple security levels.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6">
                 <Link to="/cryptography" className="gap-2">
                   <Shield className="h-5 w-5" />
                   Try Cryptography
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
+              <Button asChild size="lg" className="bg-secondary hover:bg-secondary/90 text-lg px-8 py-6">
                 <Link to="/steganography" className="gap-2">
                   <Eye className="h-5 w-5" />
                   Try Steganography
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
+              <Button asChild size="lg" className="bg-red-500 hover:bg-red-600 text-lg px-8 py-6">
                 <Link to="/multilayered-security" className="gap-2">
                   <Lock className="h-5 w-5" />
                   Try Multilayered Security
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" className="btn-hero text-lg px-8 py-6">
+              <Button asChild size="lg" className="bg-purple-500 hover:bg-purple-600 text-lg px-8 py-6">
                 <Link to="/data-processing" className="gap-2">
                   <Database className="h-5 w-5" />
-                  Try Data Processing
+                  Data Processing
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -80,7 +80,7 @@ const Index = () => {
 
           <div className="grid gap-8 md:grid-cols-4 max-w-7xl mx-auto">
             {/* Cryptography */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col border-primary/20">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6 group-hover:shadow-glow-primary transition-all duration-300">
                   <Shield className="h-8 w-8 text-white" />
@@ -93,7 +93,6 @@ const Index = () => {
               <CardContent className="space-y-4 flex-1 flex flex-col">
                 <div className="space-y-3 flex-1">
                   <div className="flex items-center gap-3 text-sm">
-                    <Lock className="h-4 w-4 text-primary" />
                     <span>AES-256 & RSA-2048 Encryption</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm">
@@ -105,14 +104,13 @@ const Index = () => {
                     <span>Interactive Learning Tools</span>
                   </div>
                 </div>
-                <Button asChild className="w-full btn-hero mt-auto">
+                <Button asChild className="w-full bg-primary hover:bg-primary/90 mt-auto">
                   <Link to="/cryptography">Explore Cryptography</Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Steganography */}
-            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
+            <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col border-secondary/20">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-secondary mb-6 group-hover:shadow-glow-secondary transition-all duration-300">
                   <Eye className="h-8 w-8 text-white" />
@@ -137,13 +135,12 @@ const Index = () => {
                     <span>Invisible Message Extraction</span>
                   </div>
                 </div>
-                <Button asChild className="w-full btn-hero mt-auto">
+                <Button asChild className="w-full bg-secondary hover:bg-secondary/90 mt-auto">
                   <Link to="/steganography">Explore Steganography</Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Data Processing */}
             <Card className="card-glow group hover:scale-105 transition-all duration-300 h-full flex flex-col">
               <CardHeader className="text-center pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 mb-6 group-hover:shadow-[0_0_20px_hsl(270_100%_50%/0.4)] transition-all duration-300">

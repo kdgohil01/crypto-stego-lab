@@ -38,7 +38,6 @@ export default function Learn() {
               <div className="flex items-start gap-3">
                 <Key className="h-5 w-5 text-primary mt-1" />
                 <div>
-                  <h4 className="font-semibold">Keys & Algorithms</h4>
                   <p className="text-sm text-muted-foreground">Mathematical methods and secret keys used for encryption</p>
                 </div>
               </div>
@@ -50,7 +49,7 @@ export default function Learn() {
                 </div>
               </div>
             </div>
-            <Button asChild className="w-full btn-hero mt-auto">
+            <Button asChild className="w-full bg-primary hover:bg-primary/90 mt-auto">
               <Link to="/cryptography">Try Cryptography Tools</Link>
             </Button>
           </CardContent>
@@ -103,7 +102,7 @@ export default function Learn() {
               Multilayered Security
             </CardTitle>
             <CardDescription className="text-base">
-              Military-grade protection combining AES-256, RSA-2048, and steganography in one system
+              Military-grade protection combining AES-256, RSA-2048, and pixel lock authentication
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 flex-1 flex flex-col">
@@ -111,22 +110,22 @@ export default function Learn() {
               <div className="flex items-start gap-3">
                 <Lock className="h-5 w-5 text-red-500 mt-1" />
                 <div>
-                  <h4 className="font-semibold">Triple-Layer Encryption</h4>
-                  <p className="text-sm text-muted-foreground">AES-256 → RSA-2048 → Steganography pipeline</p>
+                  <h4 className="font-semibold">Triple-Layer Security</h4>
+                  <p className="text-sm text-muted-foreground">AES-256 → RSA-2048 → Pixel Lock pipeline</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Key className="h-5 w-5 text-red-500 mt-1" />
                 <div>
-                  <h4 className="font-semibold">4-Click Authentication</h4>
-                  <p className="text-sm text-muted-foreground">Unique pixel-based security sequence</p>
+                  <h4 className="font-semibold">5-Point Pixel Lock</h4>
+                  <p className="text-sm text-muted-foreground">Visual authentication with image-based key derivation</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Image className="h-5 w-5 text-red-500 mt-1" />
                 <div>
-                  <h4 className="font-semibold">Hidden in Images</h4>
-                  <p className="text-sm text-muted-foreground">Encrypted data concealed within image pixels</p>
+                  <h4 className="font-semibold">Visual Authentication</h4>
+                  <p className="text-sm text-muted-foreground">Key derived from image and click positions</p>
                 </div>
               </div>
             </div>

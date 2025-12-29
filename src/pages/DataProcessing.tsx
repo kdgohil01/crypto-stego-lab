@@ -1,17 +1,26 @@
 import { Link } from "react-router-dom";
-import { Database, Link as LinkIcon } from "lucide-react";
+import { Database, Link as LinkIcon, Binary } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const tools = [
   {
+    title: "Binary Converter",
+    description: "Binary conversion and visualization tool with support for text and custom binary data.",
+    icon: Binary,
+    path: "/data-processing/binary-converter",
+    difficulty: "Intermediate",
+    color: "text-white",
+    bgColor: "bg-green-500"
+  },
+  {
     title: "URL Processor",
     description: "Multi-level security encoding tool with URL encoding, Base64, and AES-256 encryption capabilities.",
     icon: LinkIcon,
     path: "/data-processing/url-processor",
-    difficulty: "Multi-Level",
+    difficulty: "Advanced",
     color: "text-white",
-    bgColor: "bg-purple-500",
+    bgColor: "bg-red-500",
   },
 ];
 
@@ -38,7 +47,7 @@ export default function DataProcessing() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${tool.bgColor}`}>
                   <tool.icon className={`h-6 w-6 ${tool.color}`} />
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${tool.color} ${tool.bgColor}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${tool.difficulty === 'Beginner' ? 'bg-blue-500' : tool.difficulty === 'Intermediate' ? 'bg-green-500' : 'bg-red-500'}`}>
                   {tool.difficulty}
                 </span>
               </div>
@@ -70,6 +79,11 @@ export default function DataProcessing() {
               <LinkIcon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
               <h3 className="font-semibold mb-1 text-muted-foreground">Hash Generator</h3>
               <p className="text-xs text-muted-foreground">Generate MD5, SHA-256 hashes</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-muted/10">
+              <Database className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <h3 className="font-semibold mb-1 text-muted-foreground">CSV/JSON Converter</h3>
+              <p className="text-xs text-muted-foreground">Convert between CSV and JSON formats</p>
             </div>
           </div>
         </CardContent>

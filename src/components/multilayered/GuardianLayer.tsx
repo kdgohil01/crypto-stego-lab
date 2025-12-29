@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Lock, Unlock, Shield, Key, Download, Upload, Copy } from "lucide-react";
+import { Lock, Unlock, Shield, Key, Upload, Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Real AES-256 encryption using Web Crypto API
@@ -65,6 +65,47 @@ const AESCrypto = {
   }
 };
 
+// --- Validation helpers for better diagnostics ---
+const isLikelyBase64 = (s: string): boolean => {
+  const compact = s.replace(/\s+/g, "");
+  if (compact.length === 0 || compact.length % 4 !== 0) return false;
+  return /^[A-Za-z0-9+/=]+$/.test(compact);
+};
+
+const tryImportRsaPrivateKey = async (privateKeyString: string): Promise<boolean> => {
+  try {
+    const keyBytes = new Uint8Array(atob(privateKeyString).split('').map(c => c.charCodeAt(0)));
+    await crypto.subtle.importKey(
+      'pkcs8',
+      keyBytes,
+      { name: 'RSA-OAEP', hash: 'SHA-256' },
+      false,
+      ['decrypt']
+    );
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const extractTextFromImage = (canvas: HTMLCanvasElement): string => {
+  const ctx = canvas.getContext('2d')!;
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+  let binary = '';
+  let text = '';
+  for (let i = 0; i < data.length; i += 4) {
+    binary += (data[i] & 1).toString();
+    if (binary.length % 8 === 0) {
+      const byte = binary.slice(-8);
+      const charCode = parseInt(byte, 2);
+      if (charCode === 0) break; // terminator
+      text += String.fromCharCode(charCode);
+    }
+  }
+  return text;
+};
+
 // Real RSA-2048 encryption using Web Crypto API
 const RSACrypto = {
   encrypt: async (text: string): Promise<{ encrypted: string, privateKey: string }> => {
@@ -103,115 +144,93 @@ const RSACrypto = {
   }
 };
 
-// Real steganography implementation with LSB technique
-const Steganography = {
-  hideText: async (imageFile: File, text: string, clickSequence: number[]): Promise<Blob> => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    const img = document.createElement('img');
-    
-    return new Promise((resolve) => {
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        const payload = JSON.stringify({ 
-          text, 
-          sequence: clickSequence,
-          timestamp: Date.now(),
-          checksum: btoa(text + clickSequence.join(''))
-        });
-        
-        const binaryPayload = payload.split('').map(char => 
-          char.charCodeAt(0).toString(2).padStart(8, '0')
-        ).join('');
-        
-        const delimiter = '1111111111111110';
-        const fullPayload = binaryPayload + delimiter;
-        
-        let bitIndex = 0;
-        for (let i = 0; i < data.length && bitIndex < fullPayload.length; i += 4) {
-          data[i] = (data[i] & 0xFE) | parseInt(fullPayload[bitIndex]);
-          bitIndex++;
-        }
-        
-        ctx.putImageData(imageData, 0, 0);
-        canvas.toBlob((blob) => resolve(blob!), 'image/png');
-      };
-      img.src = URL.createObjectURL(imageFile);
-    });
-  },
-  
-  extractText: async (imageFile: File, clickSequence: number[]): Promise<string> => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    const img = document.createElement('img');
-    
-    return new Promise((resolve, reject) => {
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        let binaryData = '';
-        const delimiter = '1111111111111110';
-        
-        for (let i = 0; i < data.length; i += 4) {
-          binaryData += (data[i] & 1).toString();
-          if (binaryData.endsWith(delimiter)) {
-            binaryData = binaryData.slice(0, -delimiter.length);
-            break;
-          }
-        }
-        
-        if (!binaryData) {
-          reject(new Error('No hidden data found in image'));
-          return;
-        }
-        
-        let payload = '';
-        for (let i = 0; i < binaryData.length; i += 8) {
-          const byte = binaryData.slice(i, i + 8);
-          if (byte.length === 8) {
-            payload += String.fromCharCode(parseInt(byte, 2));
-          }
-        }
-        
-        try {
-          const hiddenData = JSON.parse(payload);
-          
-          if (JSON.stringify(hiddenData.sequence) !== JSON.stringify(clickSequence)) {
-            reject(new Error('Invalid click sequence - authentication failed'));
-            return;
-          }
-          
-          const expectedChecksum = btoa(hiddenData.text + hiddenData.sequence.join(''));
-          if (hiddenData.checksum !== expectedChecksum) {
-            reject(new Error('Data integrity check failed'));
-            return;
-          }
-          
-          resolve(hiddenData.text);
-        } catch (error) {
-          reject(new Error('Failed to parse hidden data'));
-        }
-      };
-      img.src = URL.createObjectURL(imageFile);
-    });
+// Pixel Lock helpers
+type PixelPoint = { x: number; y: number };
+
+async function sha256Hex(data: ArrayBuffer | string): Promise<string> {
+  const enc = new TextEncoder();
+  const bytes = typeof data === 'string' ? enc.encode(data) : new Uint8Array(data);
+  const hash = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function fileSha256Hex(file: File): Promise<string> {
+  const buf = await file.arrayBuffer();
+  return sha256Hex(buf);
+}
+
+// Quantization to allow small human error in clicks (e.g., 2% of size)
+const QUANTIZE_STEP = 0.02; // 2% step
+function quantize(value: number, step = QUANTIZE_STEP): number {
+  // Clamp within [0,1] and round to nearest step
+  const clamped = Math.max(0, Math.min(1, value));
+  return Math.round(clamped / step) * step;
+}
+function quantizePoint(p: PixelPoint): PixelPoint {
+  return { x: quantize(p.x), y: quantize(p.y) };
+}
+
+async function hmacSha256Hex(keyHex: string, message: string): Promise<string> {
+  const keyBytes = new Uint8Array(keyHex.match(/.{1,2}/g)!.map(h => parseInt(h, 16)));
+  const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, new TextEncoder().encode(message));
+  return Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function derivePixelLockKey(points: PixelPoint[], _imageFile: File): Promise<string> {
+  // NOTE: We intentionally do NOT include image hash so that
+  // decryption works even when using the modified (stego) image.
+  // Security relies on the 5-click sequence with quantization.
+  const quantized = points.map(quantizePoint);
+  const payload = JSON.stringify({ points: quantized, step: QUANTIZE_STEP });
+  return sha256Hex(payload);
+}
+
+// --- Simple LSB steganography helpers (red channel) ---
+const hideTextInImage = (canvas: HTMLCanvasElement, text: string): string => {
+  const ctx = canvas.getContext('2d')!;
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+
+  // Append null terminator to mark end
+  const binaryText = (text + '\0')
+    .split('')
+    .map((ch) => ch.charCodeAt(0).toString(2).padStart(8, '0'))
+    .join('');
+
+  for (let i = 0; i < binaryText.length && i * 4 < data.length; i++) {
+    const bit = parseInt(binaryText[i]);
+    data[i * 4] = (data[i * 4] & 0xfe) | bit; // modify LSB of red channel
   }
+
+  ctx.putImageData(imageData, 0, 0);
+  return canvas.toDataURL('image/png');
 };
 
-const validateClickSequence = (sequence: number[]): boolean => {
-  if (sequence.length !== 4) return false;
-  const unique = new Set(sequence);
-  return unique.size === 4 && sequence.every(n => n >= 1 && n <= 9);
+const loadFileToCanvas = (file: File, canvas: HTMLCanvasElement): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const ctx = canvas.getContext('2d')!;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      resolve();
+    };
+    img.onerror = (e) => {
+      URL.revokeObjectURL(url);
+      reject(e);
+    };
+    img.src = url;
+  });
+};
+
+const REQUIRED_CLICKS = 5;
+
+const validateClickSequence = (sequence: PixelPoint[]): boolean => {
+  return sequence.length === REQUIRED_CLICKS;
 };
 
 export default function GuardianLayer() {
@@ -220,42 +239,50 @@ export default function GuardianLayer() {
   const [password, setPassword] = useState("");
   const [rsaPrivateKey, setRsaPrivateKey] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [clickSequence, setClickSequence] = useState<number[]>([]);
+  const [clickSequence, setClickSequence] = useState<PixelPoint[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<string | null>(null);
-  const [resultImage, setResultImage] = useState<Blob | null>(null);
+  const [encryptedPayload, setEncryptedPayload] = useState<string>("");
+  const [stegoImageUrl, setStegoImageUrl] = useState<string>("");
   
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const resultImageRef = useRef<HTMLAnchorElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const encryptionSteps = ["AES-256", "RSA-2048", "Steganography"];
-  const decryptionSteps = ["Steganography", "RSA-2048", "AES-256"];
+  const encryptionSteps = ["AES-256", "RSA-2048", "Pixel Lock"];
+  const decryptionSteps = ["Pixel Lock", "RSA-2048", "AES-256"];
 
   const resetState = () => {
     setCurrentStep(0);
     setProgress(0);
     setResult(null);
-    setResultImage(null);
+    setEncryptedPayload("");
     setProcessing(false);
+    setStegoImageUrl("");
+  };
+
+  // Password strength analyzer (encryption only)
+  const getPasswordStrength = () => {
+    if (password.length < 8) return { level: "weak", score: 25 } as const;
+    if (password.length < 12) return { level: "medium", score: 60 } as const;
+    if (
+      password.length >= 16 &&
+      /[A-Z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[^A-Za-z0-9]/.test(password)
+    ) {
+      return { level: "strong", score: 100 } as const;
+    }
+    return { level: "good", score: 80 } as const;
   };
 
   const handleEncryption = async () => {
-    if (!inputText || !password || !selectedImage || clickSequence.length !== 4) {
+    if (!inputText || !password || !selectedImage || !validateClickSequence(clickSequence)) {
       toast({
         title: "Missing Information",
-        description: "Please fill all fields and complete the 4-click sequence",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!validateClickSequence(clickSequence)) {
-      toast({
-        title: "Invalid Click Sequence",
-        description: "Please select 4 unique positions",
+        description: "Please fill all fields and complete the pixel lock sequence",
         variant: "destructive",
       });
       return;
@@ -266,8 +293,11 @@ export default function GuardianLayer() {
     setProgress(25);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const aesEncrypted = await AESCrypto.encrypt(inputText, password);
+      await new Promise(resolve => setTimeout(resolve, 400));
+      // Derive Pixel Lock key and combine with password via HMAC for AES
+      const pixelKey = await derivePixelLockKey(clickSequence, selectedImage);
+      const combinedPassword = await hmacSha256Hex(pixelKey, password);
+      const aesEncrypted = await AESCrypto.encrypt(inputText, combinedPassword);
       toast({
         title: "Step 1 Complete",
         description: "AES-256 encryption completed",
@@ -275,18 +305,10 @@ export default function GuardianLayer() {
       
       setCurrentStep(2);
       setProgress(50);
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise(resolve => setTimeout(resolve, 400));
       const rsaResult = await RSACrypto.encrypt(aesEncrypted);
       const { encrypted: rsaEncrypted, privateKey } = rsaResult;
       setRsaPrivateKey(privateKey);
-      
-      localStorage.setItem('guardian_layer_data', JSON.stringify({
-        rsaEncrypted,
-        privateKey,
-        originalText: inputText,
-        clickSequence,
-        timestamp: Date.now()
-      }));
       
       toast({
         title: "Step 2 Complete",
@@ -295,10 +317,32 @@ export default function GuardianLayer() {
       
       setCurrentStep(3);
       setProgress(75);
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const stegoImage = await Steganography.hideText(selectedImage, rsaEncrypted, clickSequence);
-      setResultImage(stegoImage);
-      
+      await new Promise(resolve => setTimeout(resolve, 400));
+      // Pixel Lock is already applied to AES. Additionally, embed RSA payload into the selected image (LSB steganography)
+      setResult(rsaEncrypted);
+      setEncryptedPayload(rsaEncrypted);
+
+      // Try to generate stego image using a hidden canvas
+      try {
+        const canvas = canvasRef.current!;
+        await loadFileToCanvas(selectedImage, canvas);
+        const capacity = (canvas.width * canvas.height); // 1 bit per pixel (red channel), 8 pixels per char
+        const maxChars = Math.floor(capacity / 8) - 1; // reserve for terminator
+        if (rsaEncrypted.length > maxChars) {
+          toast({
+            title: "Image too small",
+            description: "The selected image cannot hold the encrypted payload. Please choose a larger image.",
+            variant: "destructive",
+          });
+          setStegoImageUrl("");
+        } else {
+          const url = hideTextInImage(canvas, rsaEncrypted);
+          setStegoImageUrl(url);
+        }
+      } catch (e) {
+        setStegoImageUrl("");
+        // Non-fatal: still allow downloading the text payload
+      }
       setProgress(100);
       toast({
         title: "Encryption Complete",
@@ -317,19 +361,11 @@ export default function GuardianLayer() {
   };
 
   const handleDecryption = async () => {
-    if (!selectedImage || !password || !rsaPrivateKey || clickSequence.length !== 4) {
+    // allow encryptedPayload to be empty if we can extract from selectedImage
+    if (!selectedImage || !password || !rsaPrivateKey || !validateClickSequence(clickSequence)) {
       toast({
         title: "Missing Information",
-        description: "Please provide image, password, RSA key, and complete the 4-click sequence",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!validateClickSequence(clickSequence)) {
-      toast({
-        title: "Invalid Click Sequence",
-        description: "Please select 4 unique positions",
+        description: "Please provide image, password, RSA key, and complete the pixel lock sequence",
         variant: "destructive",
       });
       return;
@@ -340,18 +376,53 @@ export default function GuardianLayer() {
     setProgress(25);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const extractedRsaData = await Steganography.extractText(selectedImage, clickSequence);
+      await new Promise(resolve => setTimeout(resolve, 400));
       
       toast({
         title: "Step 1 Complete",
-        description: "Data extracted from steganography",
+        description: "Pixel lock sequence captured",
       });
       
       setCurrentStep(2);
       setProgress(50);
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const aesEncrypted = await RSACrypto.decrypt(extractedRsaData, rsaPrivateKey);
+      await new Promise(resolve => setTimeout(resolve, 400));
+
+      // If payload field is empty, try extract from image via hidden canvas
+      let payloadForRsa = encryptedPayload.trim();
+      if (!payloadForRsa) {
+        try {
+          const canvas = canvasRef.current!;
+          await loadFileToCanvas(selectedImage, canvas);
+          const extracted = extractTextFromImage(canvas);
+          if (!extracted) {
+            throw new Error('No encrypted payload found in image');
+          }
+          setEncryptedPayload(extracted);
+          payloadForRsa = extracted;
+          toast({ title: 'Payload extracted', description: 'Encrypted payload extracted from image.' });
+        } catch (e) {
+          throw new Error('Failed to extract payload from image');
+        }
+      }
+
+      // Validate payload base64 format
+      if (!isLikelyBase64(payloadForRsa)) {
+        throw new Error('Invalid or corrupted encrypted payload (not base64)');
+      }
+
+      // Validate RSA private key import
+      const rsaValid = await tryImportRsaPrivateKey(rsaPrivateKey);
+      if (!rsaValid) {
+        throw new Error('Invalid RSA private key format');
+      }
+
+      // Attempt RSA decryption with clear diagnostic on failure
+      let aesEncrypted: string;
+      try {
+        aesEncrypted = await RSACrypto.decrypt(payloadForRsa, rsaPrivateKey);
+      } catch {
+        throw new Error('Wrong RSA key or corrupted encrypted payload');
+      }
       
       toast({
         title: "Step 2 Complete",
@@ -360,9 +431,15 @@ export default function GuardianLayer() {
       
       setCurrentStep(3);
       setProgress(75);
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const finalDecrypted = await AESCrypto.decrypt(aesEncrypted, password);
-      setResult(finalDecrypted);
+      await new Promise(resolve => setTimeout(resolve, 400));
+      try {
+        const pixelKey = await derivePixelLockKey(clickSequence, selectedImage);
+        const combinedPassword = await hmacSha256Hex(pixelKey, password);
+        const finalDecrypted = await AESCrypto.decrypt(aesEncrypted, combinedPassword);
+        setResult(finalDecrypted);
+      } catch {
+        throw new Error('Wrong AES password or wrong click sequence');
+      }
       setProgress(100);
       
       toast({
@@ -371,9 +448,10 @@ export default function GuardianLayer() {
       });
       
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
       toast({
         title: "Decryption Failed",
-        description: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -381,20 +459,22 @@ export default function GuardianLayer() {
     }
   };
 
-  const downloadImage = () => {
-    if (resultImage && resultImageRef.current) {
-      const url = URL.createObjectURL(resultImage);
-      resultImageRef.current.href = url;
-      resultImageRef.current.download = 'encrypted_image.png';
-      resultImageRef.current.click();
-      URL.revokeObjectURL(url);
-    }
+  const downloadStegoImage = () => {
+    if (!stegoImageUrl) return;
+    const link = document.createElement('a');
+    link.href = stegoImageUrl;
+    link.download = `guardian_encrypted_image_${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  const handleGridClick = (position: number) => {
-    if (clickSequence.length < 4 && !clickSequence.includes(position)) {
-      setClickSequence([...clickSequence, position]);
-    }
+  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (clickSequence.length >= REQUIRED_CLICKS) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setClickSequence([...clickSequence, { x, y }]);
   };
 
   const resetClickSequence = () => {
@@ -514,10 +594,50 @@ export default function GuardianLayer() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  {mode === 'encrypt' && password && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Password Strength</span>
+                        {(() => {
+                          const s = getPasswordStrength();
+                          return (
+                            <span
+                              className={`font-medium ${
+                                s.level === 'strong'
+                                  ? 'text-green-500'
+                                  : s.level === 'good'
+                                  ? 'text-yellow-500'
+                                  : s.level === 'medium'
+                                  ? 'text-orange-500'
+                                  : 'text-red-500'
+                              }`}
+                            >
+                              {s.level.toUpperCase()}
+                            </span>
+                          );
+                        })()}
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full transition-all duration-500 ${(() => {
+                            const s = getPasswordStrength();
+                            return s.level === 'strong'
+                              ? 'bg-green-500'
+                              : s.level === 'good'
+                              ? 'bg-yellow-500'
+                              : s.level === 'medium'
+                              ? 'bg-orange-500'
+                              : 'bg-red-500';
+                          })()}`}
+                          style={{ width: `${getPasswordStrength().score}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Steganography Image</Label>
+                  <Label>Authentication Image</Label>
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
@@ -538,40 +658,31 @@ export default function GuardianLayer() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>4-Click Security Sequence</Label>
+                  <Label>Pixel Lock Sequence ({REQUIRED_CLICKS} clicks)</Label>
                   {selectedImage ? (
                     <div className="space-y-2">
-                      <div className="relative">
+                      <div className="relative w-full aspect-square">
                         <img
                           src={URL.createObjectURL(selectedImage)}
                           alt="Selected"
-                          className="w-full max-w-sm border rounded cursor-crosshair"
-                          onClick={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const y = e.clientY - rect.top;
-                            const gridX = Math.floor((x / rect.width) * 3);
-                            const gridY = Math.floor((y / rect.height) * 3);
-                            const position = gridY * 3 + gridX + 1;
-                            handleGridClick(position);
-                          }}
+                          className="absolute inset-0 w-full h-full object-cover border rounded cursor-crosshair"
+                          onClick={handleImageClick}
                         />
-                        <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none">
-                          {Array.from({ length: 9 }, (_, i) => (
+                        <div className="absolute inset-0 pointer-events-none">
+                          {clickSequence.map((p, idx) => (
                             <div
-                              key={i}
-                              className={`border border-white/30 flex items-center justify-center text-white font-bold text-lg ${
-                                clickSequence.includes(i + 1) ? 'bg-primary/50' : ''
-                              }`}
+                              key={`${p.x}-${p.y}-${idx}`}
+                              className="absolute w-6 h-6 -ml-3 -mt-3 rounded-full bg-primary/60 text-white text-xs flex items-center justify-center"
+                              style={{ left: `${p.x * 100}%`, top: `${p.y * 100}%` }}
                             >
-                              {clickSequence.includes(i + 1) && clickSequence.indexOf(i + 1) + 1}
+                              {idx + 1}
                             </div>
                           ))}
                         </div>
                       </div>
                       <div className="flex justify-between items-center">
                         <p className="text-sm text-muted-foreground">
-                          Click 4 positions: {clickSequence.join(' → ')} {clickSequence.length < 4 && `(${4 - clickSequence.length} more)`}
+                          Click {REQUIRED_CLICKS} positions: {clickSequence.length}/{REQUIRED_CLICKS}
                         </p>
                         <Button variant="outline" size="sm" onClick={resetClickSequence}>
                           Reset
@@ -580,7 +691,7 @@ export default function GuardianLayer() {
                     </div>
                   ) : (
                     <p className="text-xs text-muted-foreground">
-                      Select an image first to perform the 4-click sequence.
+                      Select an image first to perform the pixel lock sequence.
                     </p>
                   )}
                 </div>
@@ -638,7 +749,14 @@ export default function GuardianLayer() {
                   </div>
                 )}
 
-                {result && (
+                {mode === 'decrypt' && (
+                  <div className="space-y-2">
+                    <Label>Encrypted Image</Label>
+                    <p className="text-xs text-muted-foreground">Provide the image with the encrypted message and complete the 5-click pixel lock. Payload will be extracted automatically.</p>
+                  </div>
+                )}
+
+                {mode === 'decrypt' && result && (
                   <div className="space-y-2">
                     <Label>Decrypted Text</Label>
                     <Textarea
@@ -649,18 +767,18 @@ export default function GuardianLayer() {
                   </div>
                 )}
 
-                {resultImage && (
-                  <div className="space-y-2">
-                    <Label>Encrypted Image Ready</Label>
-                    <Button
-                      onClick={downloadImage}
-                      className="w-full"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Encrypted Image
-                    </Button>
-                    <a ref={resultImageRef} className="hidden" />
-                  </div>
+                {mode === 'encrypt' && stegoImageUrl && (
+                  <Card className="bg-secondary/10 border-secondary/20">
+                    <CardContent className="pt-4">
+                      <div className="text-center space-y-3">
+                        <Label>Image with Encrypted Message (after 5-click Pixel Lock)</Label>
+                        <img src={stegoImageUrl} alt="Stego" className="max-w-full max-h-48 mx-auto rounded border" />
+                        <Button onClick={downloadStegoImage} className="w-full">
+                          Download Encrypted Image
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
                 )}
 
                 <Button
@@ -687,6 +805,8 @@ export default function GuardianLayer() {
           </div>
         </>
       )}
+      {/* Hidden canvas used for steganography processing */}
+      <canvas ref={canvasRef} className="hidden" />
     </div>
   );
 }
