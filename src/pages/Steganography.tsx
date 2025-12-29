@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Eye, Image, FileImage, Layers, Volume2, MousePointer, Video } from "lucide-react";
+import { Eye, Image, FileImage, Layers, Volume2, MousePointer, Video, File } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +12,15 @@ const tools = [
     difficulty: "Beginner",
     color: "text-white",
     bgColor: "bg-blue-500",
+  },
+  {
+    title: "File in Image",
+    description: "Hide any file type (PDF, ZIP, EXE, etc.) inside images using AES-256 encryption and LSB steganography.",
+    icon: File,
+    path: "/steganography/file-image",
+    difficulty: "Advanced",
+    color: "text-white",
+    bgColor: "bg-purple-500",
   },
   {
     title: "Click Sequence Authentication",
@@ -57,7 +66,7 @@ export default function Steganography() {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid gap-6 md:grid-cols-3 mb-12">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
         {tools.map((tool) => (
           <Card key={tool.title} className="card-glow group hover:scale-105 transition-transform duration-300 h-full flex flex-col">
             <CardHeader>
