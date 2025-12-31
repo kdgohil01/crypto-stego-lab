@@ -13,7 +13,6 @@ import Steganography from "./pages/Steganography";
 import DataProcessing from "./pages/DataProcessing";
 import CaesarCipher from "./components/crypto/CaesarCipher";
 import VigenereCipher from "./components/crypto/VigenereCipher";
-import TransportCipher from "./components/crypto/TransportCipher";
 import { AESEncryption } from "./components/crypto/AESEncryption";
 import { RSAEncryption } from "./components/crypto/RSAEncryption";
 import URLProcessor from "./components/data/URLProcessor";
@@ -29,6 +28,7 @@ import TextInImage from "./components/stego/TextInImage";
 import VideoSteganography from "./components/stego/VideoSteganography";
 import ClickSequenceAuth from "./components/stego/ClickSequenceAuth";
 import AudioSteganography from "./components/stego/AudioSteganography";
+import FileInImage from "./components/stego/FileInImage";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
@@ -72,11 +72,11 @@ function App() {
             <Route path="/cryptography" element={<AppLayout><Cryptography /></AppLayout>} />
             <Route path="/cryptography/caesar" element={<AppLayout><CaesarCipher /></AppLayout>} />
             <Route path="/cryptography/vigenere" element={<AppLayout><VigenereCipher /></AppLayout>} />
-            <Route path="/cryptography/transport" element={<AppLayout><TransportCipher /></AppLayout>} />
             <Route path="/cryptography/aes" element={<AppLayout><AESEncryption /></AppLayout>} />
             <Route path="/cryptography/rsa" element={<AppLayout><RSAEncryption /></AppLayout>} />
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
             <Route path="/steganography/text-image" element={<AppLayout><TextInImage /></AppLayout>} />
+            <Route path="/steganography/file-image" element={<AppLayout><FileInImage /></AppLayout>} />
             <Route path="/steganography/video" element={<AppLayout><VideoSteganography /></AppLayout>} />
             <Route path="/steganography/video-steganography" element={<AppLayout><VideoSteganographyDev /></AppLayout>} />
             <Route path="/steganography/click-sequence" element={<AppLayout><ClickSequenceAuth /></AppLayout>} />
