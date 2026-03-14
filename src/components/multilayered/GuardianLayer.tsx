@@ -234,18 +234,19 @@ const validateClickSequence = (sequence: PixelPoint[]): boolean => {
 };
 
 export default function GuardianLayer() {
+  // Load from localStorage on mount
   const [mode, setMode] = useState<'encrypt' | 'decrypt' | null>(null);
   const [inputText, setInputText] = useState("");
-  const [password, setPassword] = useState("");
-  const [rsaPrivateKey, setRsaPrivateKey] = useState("");
+  const [password, setPassword] = useState(() => localStorage.getItem('guardian_password') || "");
+  const [rsaPrivateKey, setRsaPrivateKey] = useState(() => localStorage.getItem('guardian_rsa_key') || "");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [clickSequence, setClickSequence] = useState<PixelPoint[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<string | null>(null);
-  const [encryptedPayload, setEncryptedPayload] = useState<string>("");
-  const [stegoImageUrl, setStegoImageUrl] = useState<string>("");
+  const [encryptedPayload, setEncryptedPayload] = useState<string>(() => localStorage.getItem('guardian_payload') || "");
+  const [stegoImageUrl, setStegoImageUrl] = useState<string>(() => localStorage.getItem('guardian_stego_url') || "");
   
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -261,6 +262,10 @@ export default function GuardianLayer() {
     setEncryptedPayload("");
     setProcessing(false);
     setStegoImageUrl("");
+    
+    // Clear localStorage
+    localStorage.removeItem('guardian_payload');
+    localStorage.removeItem('guardian_stego_url');
   };
 
   // Password strength analyzer (encryption only)
@@ -310,6 +315,9 @@ export default function GuardianLayer() {
       const { encrypted: rsaEncrypted, privateKey } = rsaResult;
       setRsaPrivateKey(privateKey);
       
+      // Persist RSA key to localStorage
+      localStorage.setItem('guardian_rsa_key', privateKey);
+      
       toast({
         title: "Step 2 Complete",
         description: "RSA-2048 encryption completed",
@@ -321,6 +329,10 @@ export default function GuardianLayer() {
       // Pixel Lock is already applied to AES. Additionally, embed RSA payload into the selected image (LSB steganography)
       setResult(rsaEncrypted);
       setEncryptedPayload(rsaEncrypted);
+      
+      // Persist encrypted payload to localStorage
+      localStorage.setItem('guardian_payload', rsaEncrypted);
+      localStorage.setItem('guardian_password', password);
 
       // Try to generate stego image using a hidden canvas
       try {
@@ -338,6 +350,9 @@ export default function GuardianLayer() {
         } else {
           const url = hideTextInImage(canvas, rsaEncrypted);
           setStegoImageUrl(url);
+          
+          // Persist stego image URL to localStorage
+          localStorage.setItem('guardian_stego_url', url);
         }
       } catch (e) {
         setStegoImageUrl("");
@@ -525,20 +540,42 @@ export default function GuardianLayer() {
       {mode && (
         <>
           <div className="flex items-center justify-between mb-6">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setMode(null);
-                resetState();
-                setInputText("");
-                setPassword("");
-                setRsaPrivateKey("");
-                setSelectedImage(null);
-                setClickSequence([]);
-              }}
-            >
-              ← Back to Selection
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setMode(null);
+                  resetState();
+                  setInputText("");
+                  setPassword("");
+                  setRsaPrivateKey("");
+                  setSelectedImage(null);
+                  setClickSequence([]);
+                }}
+              >
+                ← Back to Selection
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  localStorage.removeItem('guardian_password');
+                  localStorage.removeItem('guardian_rsa_key');
+                  localStorage.removeItem('guardian_payload');
+                  localStorage.removeItem('guardian_stego_url');
+                  setPassword("");
+                  setRsaPrivateKey("");
+                  setEncryptedPayload("");
+                  setStegoImageUrl("");
+                  toast({
+                    title: "Data Cleared",
+                    description: "All saved encryption data has been cleared.",
+                  });
+                }}
+              >
+                Clear Saved Data
+              </Button>
+            </div>
             <div className="flex items-center gap-2">
               {(mode === 'encrypt' ? encryptionSteps : decryptionSteps).map((step, index) => (
                 <div key={step} className={`px-3 py-1 rounded-full text-sm ${
@@ -573,16 +610,31 @@ export default function GuardianLayer() {
                 )}
 
                 {mode === 'decrypt' && (
-                  <div className="space-y-2">
-                    <Label htmlFor="rsa-key">RSA Private Key</Label>
-                    <Textarea
-                      id="rsa-key"
-                      placeholder="Paste your RSA private key here..."
-                      value={rsaPrivateKey}
-                      onChange={(e) => setRsaPrivateKey(e.target.value)}
-                      className="min-h-[120px] font-mono text-xs"
-                    />
-                  </div>
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="encrypted-payload">Encrypted Payload (Optional)</Label>
+                      <Textarea
+                        id="encrypted-payload"
+                        placeholder="Paste encrypted payload here, or leave empty to extract from image..."
+                        value={encryptedPayload}
+                        onChange={(e) => setEncryptedPayload(e.target.value)}
+                        className="min-h-[100px] font-mono text-xs"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        If left empty, the payload will be automatically extracted from the uploaded image.
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="rsa-key">RSA Private Key</Label>
+                      <Textarea
+                        id="rsa-key"
+                        placeholder="Paste your RSA private key here..."
+                        value={rsaPrivateKey}
+                        onChange={(e) => setRsaPrivateKey(e.target.value)}
+                        className="min-h-[120px] font-mono text-xs"
+                      />
+                    </div>
+                  </>
                 )}
 
                 <div className="space-y-2">
@@ -716,6 +768,37 @@ export default function GuardianLayer() {
                   </div>
                 )}
 
+                {mode === 'encrypt' && encryptedPayload && (
+                  <div className="p-4 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="text-xs font-semibold">Encrypted Payload</Label>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText(encryptedPayload);
+                          toast({
+                            title: "Payload Copied!",
+                            description: "Encrypted payload has been copied to clipboard.",
+                          });
+                        }}
+                        className="gap-1"
+                      >
+                        <Copy className="h-3 w-3" />
+                        Copy
+                      </Button>
+                    </div>
+                    <Textarea
+                      value={encryptedPayload}
+                      readOnly
+                      className="mt-2 font-mono text-xs h-24 bg-background"
+                    />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      This payload is also embedded in the image below.
+                    </p>
+                  </div>
+                )}
+
                 {mode === 'encrypt' && rsaPrivateKey && (
                   <div className="p-4 bg-muted rounded-lg">
                     <div className="flex items-center justify-between mb-2">
@@ -751,8 +834,14 @@ export default function GuardianLayer() {
 
                 {mode === 'decrypt' && (
                   <div className="space-y-2">
-                    <Label>Encrypted Image</Label>
-                    <p className="text-xs text-muted-foreground">Provide the image with the encrypted message and complete the 5-click pixel lock. Payload will be extracted automatically.</p>
+                    <Label>Decryption Instructions</Label>
+                    <div className="p-3 bg-muted/50 rounded text-xs space-y-1">
+                      <p>1. Upload the encrypted image</p>
+                      <p>2. Paste the RSA private key (saved during encryption)</p>
+                      <p>3. Enter the AES password</p>
+                      <p>4. Complete the 5-click pixel lock sequence (same as encryption)</p>
+                      <p>5. Optionally paste the encrypted payload, or it will be extracted from the image</p>
+                    </div>
                   </div>
                 )}
 
