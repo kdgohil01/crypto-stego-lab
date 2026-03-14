@@ -13,6 +13,7 @@ import Steganography from "./pages/Steganography";
 import DataProcessing from "./pages/DataProcessing";
 import CaesarCipher from "./components/crypto/CaesarCipher";
 import VigenereCipher from "./components/crypto/VigenereCipher";
+import TransportCipher from "./components/crypto/TransportCipher";
 import { AESEncryption } from "./components/crypto/AESEncryption";
 import { RSAEncryption } from "./components/crypto/RSAEncryption";
 import URLProcessor from "./components/data/URLProcessor";
@@ -72,6 +73,7 @@ function App() {
             <Route path="/cryptography" element={<AppLayout><Cryptography /></AppLayout>} />
             <Route path="/cryptography/caesar" element={<AppLayout><CaesarCipher /></AppLayout>} />
             <Route path="/cryptography/vigenere" element={<AppLayout><VigenereCipher /></AppLayout>} />
+            <Route path="/cryptography/transport" element={<AppLayout><TransportCipher /></AppLayout>} />
             <Route path="/cryptography/aes" element={<AppLayout><AESEncryption /></AppLayout>} />
             <Route path="/cryptography/rsa" element={<AppLayout><RSAEncryption /></AppLayout>} />
             <Route path="/steganography" element={<AppLayout><Steganography /></AppLayout>} />
