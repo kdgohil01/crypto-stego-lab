@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Info, RotateCcw, Lock } from "lucide-react";
 import {
@@ -26,33 +26,34 @@ const transportEncrypt = (text: string, key: string): string => {
   const cleanText = text.replace(/\s+/g, '').toUpperCase();
   if (!cleanText) return '';
   
-  const keyLength = Math.max(1, Math.min(keyNum, cleanText.length));
+  const numCols = Math.max(1, Math.min(keyNum, cleanText.length));
+  const numRows = Math.ceil(cleanText.length / numCols);
   
-  // Create rows based on the key length
-  const rows: string[] = [];
-  for (let i = 0; i < keyLength; i++) {
-    rows.push('');
-  }
+  // Create grid and fill row by row
+  const grid: string[][] = [];
+  let index = 0;
   
-  // Fill the grid row by row
-  for (let i = 0; i < cleanText.length; i++) {
-    const rowIndex = i % keyLength;
-    rows[rowIndex] += cleanText[i];
-  }
-  
-  // Read the grid column by column
-  let result = '';
-  const maxRowLength = Math.max(...rows.map(row => row.length));
-  
-  for (let col = 0; col < maxRowLength; col++) {
-    for (let row = 0; row < keyLength; row++) {
-      if (col < rows[row].length) {
-        result += rows[row][col];
+  for (let row = 0; row < numRows; row++) {
+    const rowData: string[] = [];
+    for (let col = 0; col < numCols; col++) {
+      if (index < cleanText.length) {
+        rowData.push(cleanText[index++]);
+      } else {
+        rowData.push('X'); // Padding
       }
+    }
+    grid.push(rowData);
+  }
+  
+  // Read column by column
+  let result = '';
+  for (let col = 0; col < numCols; col++) {
+    for (let row = 0; row < numRows; row++) {
+      result += grid[row][col];
     }
   }
   
-  // Add spaces for better readability (optional)
+  // Add spaces for better readability
   return result.match(/.{1,5}/g)?.join(' ') || '';
 };
 
@@ -66,47 +67,34 @@ const transportDecrypt = (text: string, key: string): string => {
   const cleanText = text.replace(/\s+/g, '').toUpperCase();
   if (!cleanText) return '';
   
-  const keyLength = Math.max(1, Math.min(keyNum, cleanText.length));
-  const totalChars = cleanText.length;
-  const fullRows = Math.floor(totalChars / keyLength);
-  const remainder = totalChars % keyLength;
+  const numCols = Math.max(1, Math.min(keyNum, cleanText.length));
+  const numRows = Math.ceil(cleanText.length / numCols);
   
-  // Calculate row lengths
-  const rowLengths: number[] = [];
-  for (let i = 0; i < keyLength; i++) {
-    rowLengths.push(i < remainder ? fullRows + 1 : fullRows);
-  }
+  // Create grid
+  const grid: string[][] = Array(numRows).fill(null).map(() => Array(numCols).fill(''));
   
-  // Reconstruct the grid
+  // Fill column by column (reverse of encryption)
   let index = 0;
-  const grid: string[][] = [];
-  
-  for (let i = 0; i < keyLength; i++) {
-    const row: string[] = [];
-    const rowLength = rowLengths[i];
-    
-    for (let j = 0; j < rowLength; j++) {
+  for (let col = 0; col < numCols; col++) {
+    for (let row = 0; row < numRows; row++) {
       if (index < cleanText.length) {
-        row.push(cleanText[index++]);
+        grid[row][col] = cleanText[index++];
       }
     }
-    
-    grid.push(row);
   }
   
-  // Read the grid column by column
+  // Read row by row
   let result = '';
-  const maxColLength = Math.max(...grid.map(row => row.length));
-  
-  for (let col = 0; col < maxColLength; col++) {
-    for (let row = 0; row < keyLength; row++) {
-      if (col < grid[row].length) {
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      if (grid[row][col] && grid[row][col] !== 'X') {
         result += grid[row][col];
       }
     }
   }
   
-  return result;
+  // Remove trailing X padding
+  return result.replace(/X+$/, '');
 };
 
 export default function TransportCipher() {
